@@ -110,6 +110,11 @@ table.data-table tr:hover td{background:#fdf9f9}
 
 /* 弹窗 */
 .modal-mask{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:200;display:flex;align-items:center;justify-content:center;padding:16px}
+/* 小程序端底部弹层（涵盖单位清单） */
+.sheet-mask{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:200;display:flex;align-items:flex-end;justify-content:center}
+.phone-frame .sheet-mask{position:absolute}
+.sheet{background:#fff;width:100%;max-width:420px;border-radius:16px 16px 0 0;padding:16px 16px 20px;max-height:72vh;overflow-y:auto;-webkit-overflow-scrolling:touch;animation:sup .2s ease}
+@keyframes sup{from{transform:translateY(12%);opacity:.6}to{transform:translateY(0);opacity:1}}
 .modal{background:#fff;border-radius:14px;width:95%;max-width:640px;max-height:88vh;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:20px}
 .modal h4{font-size:16px;color:#333;margin-bottom:14px}
 .modal .m-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:16px}
@@ -618,14 +623,14 @@ function renderEmpOrg(){
     var unitN=node.units?node.units.length:0;
     return '<div class="org-node"><div class="row '+(open?"open":"")+'" data-org="'+node.id+'">'+
       '<span class="arrow">▶</span><span class="nm">'+esc(node.name)+'</span>'+
-      (unitN?'<span class="org-badge">'+unitN+' 单位</span>':"")+'<span class="org-badge">'+node.lv+'</span></div>'+
+      (unitN?'<span class="org-badge" data-orgunits="'+node.id+'">'+unitN+' 单位 ›</span>':"")+'<span class="org-badge">'+node.lv+'</span></div>'+
       '<div class="org-children'+(open?" show":"")+'">'+kids+'</div></div>';
   }
   var list=ORGS.map(function(o){return tree(o,0);}).join("");
   var o=findOrg(state.orgSel)||ORGS[0];
   return '<div style="font-size:15px;font-weight:700;margin-bottom:10px">工会组织架构</div>'+
     '<div class="card"><div class="org-tree-h5">'+list+'</div>'+
-    '<div style="font-size:11px;color:#aaa;margin-top:8px">点击组织节点展开/收起，点击名称查看详情</div></div>'+
+    '<div style="font-size:11px;color:#aaa;margin-top:8px">点击节点展开/收起 · 点「N 单位 ›」查看涵盖单位清单</div></div>'+
     '<div class="card"><div style="font-size:13.5px;font-weight:700;margin-bottom:6px">'+esc(o.name)+' <span class="org-badge">'+o.lv+'</span></div>'+
     '<div class="kv"><div class="k">上级组织</div><div class="v">'+esc(o.pid?findOrg(o.pid).name:"（根节点）")+'</div></div>'+
     '<div class="kv"><div class="k">组织编码</div><div class="v">'+esc(o.code)+'</div></div>'+
@@ -816,6 +821,9 @@ function bindEvents(){
   for(i=0;i<facs.length;i++){(function(el){el.onclick=function(){state.siteFac=el.getAttribute("data-fac");render();};})(facs[i]);}
   var sCards=document.querySelectorAll("[data-site]");
   for(i=0;i<sCards.length;i++){(function(el){el.onclick=function(){state.siteDetail=parseInt(el.getAttribute("data-site"),10);setTab("sites");};})(sCards[i]);}
+  // 小程序端组织树：点「N 单位」徽标弹涵盖单位清单（不触发展开/收起）
+  var ous=document.querySelectorAll("[data-orgunits]");
+  for(i=0;i<ous.length;i++){(function(el){el.onclick=function(e){e.stopPropagation();unitSheetModal(parseInt(el.getAttribute("data-orgunits"),10));};})(ous[i]);}
   // H5 组织树：展开/收起 + 选中
   var orgs=document.querySelectorAll("[data-org]");
   for(i=0;i<orgs.length;i++){(function(el){el.onclick=function(){
@@ -1199,6 +1207,30 @@ function memberLogModal(name){
     logs.map(function(l){return '<div class="kv"><div class="k">'+l.t+'</div><div class="v">'+l.act+' · <span style="color:#999">'+l.note+'</span></div></div>';}).join("")+
     '<div class="m-actions"><button class="btn gray" data-close="1">关闭</button></div></div>';
   document.body.appendChild(mask);mask.onclick=function(e){if(e.target===mask)mask.remove();};
+  maskClosers(mask);
+}
+
+/* ================= 涵盖单位清单弹层（小程序端底部弹层，与管理端实时同步） ================= */
+function unitSheetModal(id){
+  var o=findOrg(id);
+  if(!o)return;
+  var units=o.units||[];
+  var rows=units.length?units.map(function(u){
+    return '<div style="display:flex;align-items:center;justify-content:space-between;padding:10px 2px;border-bottom:1px solid #f4f0f2;font-size:13px">'+
+      '<span style="color:#333;font-weight:600">'+esc(u.name)+'</span>'+
+      (u.u?'<span class="tag ok">有效</span>':'<span class="tag gray">退会</span>')+'</div>';
+  }).join(""):'<div style="text-align:center;color:#aaa;padding:26px 0;font-size:12.5px">该组织暂无涵盖单位</div>';
+  var mask=document.createElement("div");mask.className="sheet-mask";
+  mask.innerHTML='<div class="sheet">'+
+    '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">'+
+    '<div style="font-size:14.5px;font-weight:700;color:#333">'+esc(o.name)+' · 涵盖单位</div>'+
+    '<div style="font-size:11px;color:#999">'+units.length+' 家</div></div>'+
+    '<div style="font-size:10.5px;color:#aaa;margin-bottom:6px">清单与管理端「工会涵盖单位」实时同步（含退会状态）</div>'+
+    rows+
+    '<button class="btn block" style="margin-top:14px" data-close="1">关 闭</button></div>';
+  var host=document.querySelector(".phone-frame")||document.body;
+  host.appendChild(mask);
+  mask.onclick=function(e){if(e.target===mask)mask.remove();};
   maskClosers(mask);
 }
 
