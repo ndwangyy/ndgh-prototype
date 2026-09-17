@@ -1,0 +1,1045 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>宁德市总工会会员服务平台 · 交互原型 V1.1</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{font-family:-apple-system,"Microsoft YaHei","PingFang SC","Segoe UI",sans-serif;background:#f0eef1;color:#2a2222;-webkit-font-smoothing:antialiased}
+button{font-family:inherit;cursor:pointer;border:none;background:none}
+input,select,textarea{font-family:inherit;outline:none}
+
+/* ============ 原型外壳 ============ */
+.topbar{background:linear-gradient(135deg,#8F1521,#C81E2E);color:#fff;padding:12px 20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;position:sticky;top:0;z-index:100;box-shadow:0 2px 10px rgba(0,0,0,.15)}
+.topbar .brand{font-size:16px;font-weight:700;letter-spacing:.5px}
+.topbar .brand small{font-weight:400;opacity:.75;font-size:11px;margin-left:8px}
+.role-switch{display:flex;background:rgba(255,255,255,.16);border-radius:20px;padding:3px}
+.role-switch button{color:#fff;font-size:12.5px;padding:6px 16px;border-radius:18px}
+.role-switch button.on{background:#fff;color:#8E001E;font-weight:700}
+.desktop-wrap{display:flex;gap:20px;padding:20px;justify-content:center;align-items:flex-start}
+
+/* ========== 手机外框 ========== */
+.phone-frame{width:390px;min-height:720px;border-radius:28px;border:8px solid #2c2c2c;overflow:hidden;background:#f6f5f7;position:relative;box-shadow:0 8px 30px rgba(0,0,0,.25);display:flex;flex-direction:column}
+.phone-frame .ph-head{background:linear-gradient(135deg,#8E001E,#C81E2E);color:#fff;padding:14px 16px 12px}
+.phone-frame .ph-head h3{font-size:16px;font-weight:700}
+.phone-frame .ph-head p{font-size:11px;opacity:.8;margin-top:2px}
+.phone-body{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:14px;min-height:540px;max-height:680px}
+
+/* 手机底部 tab */
+.phone-tabbar{display:flex;border-top:1px solid #e4e1e6;background:#fff}
+.phone-tabbar .tab{flex:1;text-align:center;padding:8px 0 9px;font-size:10.5px;color:#8a8490}
+.phone-tabbar .tab .ico{font-size:18px;display:block;margin-bottom:2px}
+.phone-tabbar .tab.on{color:#C81E2E;font-weight:700}
+
+/* ===== PC 框架 ===== */
+.pc-frame{flex:1;max-width:1080px;min-width:520px;background:#fff;border-radius:14px;border:1px solid #e3e0e6;overflow:hidden;display:flex;min-height:700px}
+.pc-side{width:176px;background:#1c1a22;color:#cfc9d8;padding:14px 0;flex-shrink:0}
+.pc-side .side-title{padding:6px 18px 12px;font-size:13px;font-weight:700;color:#fff;border-bottom:1px solid rgba(255,255,255,.08);margin-bottom:8px}
+.pc-side .menu-item{padding:11px 18px;font-size:13px;cursor:pointer;border-left:3px solid transparent}
+.pc-side .menu-item.on{background:rgba(232,70,84,.18);color:#fff;border-left-color:#E84654;font-weight:600}
+.pc-main{flex:1;display:flex;flex-direction:column;overflow:hidden}
+.pc-top{background:#fff;padding:12px 20px;border-bottom:1px solid #eee;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.pc-top h2{font-size:17px;color:#333}
+.pc-top .admin-tag{font-size:11px;background:#FCE4EC;color:#C62828;padding:3px 10px;border-radius:12px;font-weight:600}
+.pc-content{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:16px 20px}
+
+/* ===== 通用组件 ===== */
+.card{background:#fff;border-radius:12px;box-shadow:0 1px 6px rgba(0,0,0,.06);padding:14px;margin-bottom:12px}
+.btn{display:inline-block;background:#E84654;color:#fff;padding:9px 18px;border-radius:8px;font-size:13.5px;font-weight:600;text-align:center}
+.btn.block{display:block;width:100%}
+.btn.ghost{background:#fff;color:#E12E3E;border:1px solid #E12E3E}
+.btn.gray{background:#f0eef2;color:#555;font-weight:400}
+.btn.sm{padding:5px 12px;font-size:12px;border-radius:6px}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.tag{display:inline-block;padding:2px 9px;border-radius:10px;font-size:11px;font-weight:600}
+.tag.wait{background:#FFF3E0;color:#E65100}
+.tag.ok{background:#E8F5E9;color:#2E7D32}
+.tag.no{background:#FCE4EC;color:#C62828}
+.tag.blue{background:#E3F2FD;color:#1565C0}
+.tag.gray{background:#f0f0f0;color:#666}
+.tag.red{background:#FDE9EC;color:#C62828}
+.field{margin-bottom:12px}
+.field label{display:block;font-size:12.5px;color:#5a5560;margin-bottom:5px;font-weight:600}
+.field input,.field select,.field textarea{width:100%;padding:9px 11px;border:1px solid #ddd;border-radius:8px;font-size:13.5px;background:#fff}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:#E12E3E}
+.field .err{color:#E12E3E;font-size:11px;margin-top:3px}
+.form-row{display:flex;gap:10px}
+.form-row .field{flex:1}
+.table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+table.data-table{width:100%;border-collapse:collapse;font-size:12.5px;min-width:560px}
+table.data-table th{background:#f7f5f9;padding:9px 10px;text-align:left;color:#666;font-weight:600;border-bottom:1px solid #eee;white-space:nowrap}
+table.data-table td{padding:10px;border-bottom:1px solid #f2f0f3;vertical-align:middle}
+table.data-table tr:hover td{background:#fdf9f9}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.chip{padding:6px 14px;border-radius:16px;font-size:12px;background:#f3f1f4;color:#666;cursor:pointer}
+.chip.on{background:#E12E3E;color:#fff;font-weight:600}
+.fac{display:inline-block;background:#FCE9EB;color:#B02A3A;font-size:11px;padding:2px 8px;border-radius:10px;margin:2px 3px 2px 0}
+.fac.blue{background:#E8F0FE;color:#1a66cc}
+.fac.green{background:#E6F4EA;color:#1e7e34}
+.stat-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
+.stat-card{background:#fff;border-radius:12px;padding:16px;box-shadow:0 2px 8px rgba(0,0,0,.05);border-top:3px solid #E12E3E}
+.stat-card .v{font-size:24px;font-weight:800;color:#c81e2e}
+.stat-card .l{font-size:12px;color:#888;margin-top:3px}
+
+/* 组织管理布局 */
+.org-layout{display:flex;gap:14px;align-items:flex-start}
+.org-side{width:240px;background:#fff;border-radius:12px;box-shadow:0 1px 6px rgba(0,0,0,.06);padding:12px;flex-shrink:0;max-height:600px;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.org-main{flex:1;min-width:0}
+.org-tabs{display:flex;border-bottom:2px solid #f0eef2;margin-bottom:12px}
+.org-tabs .ot{flex:1;text-align:center;padding:10px;font-size:13px;font-weight:600;color:#888;cursor:pointer;border-bottom:3px solid transparent}
+.org-tabs .ot.on{color:#E12E3E;border-bottom-color:#E12E3E}
+.org-tree{font-size:13px}
+.org-node{padding:2px 0}
+.org-node .row{display:flex;align-items:center;gap:6px;padding:6px 8px;border-radius:6px;cursor:pointer;font-size:12.5px}
+.org-node .row:hover{background:#f5edf0}
+.org-node .row.sel{background:#FCE9EB;color:#B02A3A;font-weight:700}
+.org-node .row .arrow{width:12px;color:#b9b2bd;transition:transform .2s;font-size:10px}
+.org-node .row.open .arrow{transform:rotate(90deg)}
+.org-node .row .nm{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.org-node .row .cnt{font-size:10px;color:#bbb}
+.org-children{margin-left:20px;border-left:1.5px dashed #e3dde3;padding-left:8px;display:none}
+.org-children.show{display:block}
+
+/* 树形组织 H5 */
+.org-tree-h5{font-size:13.5px}
+.org-tree-h5 .org-node .row{background:#faf8fa;border-radius:8px;padding:8px 10px}
+.org-badge{font-size:10px;background:#FDE9EC;color:#C62828;padding:1px 7px;border-radius:8px;margin-left:6px}
+
+/* 弹窗 */
+.modal-mask{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:200;display:flex;align-items:center;justify-content:center;padding:16px}
+.modal{background:#fff;border-radius:14px;width:95%;max-width:640px;max-height:88vh;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:20px}
+.modal h4{font-size:16px;color:#333;margin-bottom:14px}
+.modal .m-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:16px}
+.modal .m-actions.wrap{flex-wrap:wrap}
+.toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:rgba(0,0,0,.8);color:#fff;padding:10px 22px;border-radius:22px;font-size:13px;z-index:300;animation:tin .25s ease}
+@keyframes tin{from{opacity:0;transform:translateX(-50%) translateY(8px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
+
+/* 首页卡片 */
+.entry-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px}
+.entry{background:#fff;border-radius:12px;padding:14px 6px;text-align:center;box-shadow:0 2px 6px rgba(0,0,0,.05);cursor:pointer}
+.entry .e-ico{font-size:22px;display:block;margin-bottom:6px}
+.entry .e-txt{font-size:12px;font-weight:600;color:#444}
+.entry:active{transform:scale(.97)}
+.banner{background:linear-gradient(135deg,#8E0010,#D63A4E);color:#fff;border-radius:12px;padding:18px 16px;margin-bottom:14px}
+.banner h4{font-size:15px;margin-bottom:4px}
+.banner p{font-size:11.5px;opacity:.85}
+
+/* 站点卡片 */
+.site-card{display:flex;gap:12px;background:#fff;border-radius:12px;padding:12px;margin-bottom:10px;box-shadow:0 2px 6px rgba(0,0,0,.05);cursor:pointer}
+.site-card:active{transform:scale(.98)}
+.site-thumb{width:76px;height:76px;border-radius:10px;background:linear-gradient(135deg,#f4cfd4,#e88d9c);display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0;color:#fff}
+.site-card .info{flex:1;min-width:0}
+.site-card .nm{font-size:14px;font-weight:700;color:#333;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.site-card .addr{font-size:11.5px;color:#999;margin:4px 0 6px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.detail-hero{height:130px;border-radius:12px;background:linear-gradient(135deg,#c66a76,#e88a99);display:flex;align-items:flex-end;padding:12px;color:#fff;margin-bottom:12px;position:relative}
+.detail-hero .nm{font-size:18px;font-weight:800}
+.kv{display:flex;padding:9px 0;border-bottom:1px dashed #f0edf0;font-size:12.5px}
+.kv .k{width:88px;color:#999;flex-shrink:0}
+.kv .v{flex:1;color:#333;line-height:1.6}
+.back-btn{margin-bottom:10px;display:inline-flex;align-items:center;gap:4px;color:#E12E3E;font-size:13px;font-weight:600;cursor:pointer;padding:4px 0}
+
+/* 申请步骤 */
+.steps{display:flex;margin-bottom:14px}
+.steps .step{flex:1;text-align:center;font-size:10.5px;color:#aaa;position:relative}
+.steps .step .dot{width:22px;height:22px;border-radius:50%;background:#eee;display:flex;align-items:center;justify-content:center;margin:0 auto 4px;font-size:11px;color:#999}
+.steps .step.done .dot{background:#E85460;color:#fff}
+.steps .step.cur .dot{background:#E12E3E;color:#fff;box-shadow:0 0 0 4px #F9DDE0}
+.steps .step.cur{color:#E12E3E;font-weight:700}
+
+/* ===== 查看密码门 ===== */
+.view-lock{position:fixed;inset:0;z-index:9999;background:linear-gradient(135deg,#8F1521 0%,#C81E2E 55%,#E04A52 100%);display:flex;align-items:center;justify-content:center;padding:20px}
+.view-lock.hide{display:none}
+.vl-card{background:#fff;border-radius:16px;padding:34px 30px;width:100%;max-width:380px;text-align:center;box-shadow:0 12px 40px rgba(0,0,0,.35)}
+.vl-logo{font-size:42px;margin-bottom:10px}
+.vl-title{font-size:17px;font-weight:800;color:#7A101C;letter-spacing:.5px}
+.vl-sub{font-size:12.5px;color:#999;margin:6px 0 18px}
+.vl-input{width:100%;padding:12px 14px;border:1.5px solid #e0d8dc;border-radius:9px;font-size:15px;outline:none;text-align:center;letter-spacing:2px}
+.vl-input:focus{border-color:#E12E3E}
+.vl-err{display:none;font-size:12px;color:#C62828;margin-top:8px}
+.vl-err.show{display:block}
+.vl-btn{width:100%;margin-top:16px;padding:12px;background:linear-gradient(135deg,#C81E2E,#E12E3E);color:#fff;border:none;border-radius:9px;font-size:15px;font-weight:700;cursor:pointer}
+.vl-btn:hover{opacity:.92}
+.vl-hint{font-size:11px;color:#aaa;margin-top:14px;line-height:1.6}
+.vl-lock{display:inline-block;font-size:11px;color:#7A101C;background:#FDE9EC;padding:2px 10px;border-radius:12px;margin-top:10px}
+
+/* ===== 响应式 ===== */
+@media(max-width:860px){
+  .desktop-wrap{flex-direction:column;align-items:center;padding:12px}
+  .phone-frame{width:100%;max-width:400px;border-radius:0;border:none;min-height:92vh}
+  .phone-body{max-height:64vh}
+  .pc-frame{width:100%;min-width:0;min-height:88vh;flex-direction:column}
+  .pc-side{width:100%;display:flex;overflow-x:auto;padding:0;border-bottom:1px solid #eee}
+  .pc-side .side-title{display:none}
+  .pc-side .menu-item{border-left:none;border-bottom:3px solid transparent;white-space:nowrap;padding:12px 16px}
+  .pc-side .menu-item.on{border-bottom-color:#E84654;background:rgba(232,70,84,.1)}
+  .pc-top{flex-wrap:wrap}
+  .stat-cards{grid-template-columns:repeat(2,1fr)}
+  .org-layout{flex-direction:column}
+  .org-side{width:100%;max-height:220px}
+  .modal{width:95%;padding:16px}
+  .form-row{flex-direction:column;gap:0}
+}
+@media(max-width:400px){
+  .entry-grid{grid-template-columns:repeat(3,1fr);gap:6px}
+  .stat-cards{grid-template-columns:1fr 1fr;gap:8px}
+}
+</style>
+</head>
+<body>
+
+<!-- 查看密码门（SHA-256 前台比对，源码不存明文） -->
+<div class="view-lock" id="viewLock">
+  <div class="vl-card">
+    <div class="vl-logo">🏛️</div>
+    <div class="vl-title">宁德市总工会会员服务平台</div>
+    <div class="vl-sub">原型演示 · 访问需验证查看密码</div>
+    <input type="password" id="vlPass" class="vl-input" placeholder="请输入查看密码" autocomplete="off">
+    <div class="vl-err" id="vlErr">密码错误，请重试</div>
+    <button class="vl-btn" onclick="tryUnlock()">进入演示</button>
+    <div class="vl-lock">🔒 演示环境已开启访问保护</div>
+    <div class="vl-hint">本页面仅供内部演示，请向管理员获取密码</div>
+  </div>
+</div>
+
+<div class="topbar">
+  <div class="brand">宁德市总工会会员服务平台 <small>交互原型演示 · V1.1</small></div>
+  <div class="role-switch">
+    <button id="roleEmp" class="on">职工端 H5</button>
+    <button id="roleAdmin">管理端 Web</button>
+  </div>
+  <div class="user-area" id="userArea" style="min-width:10px;text-align:right"></div>
+</div>
+
+<div class="desktop-wrap" id="wrap"></div>
+
+<script>
+/* ============================================================
+ * VIEW PASSWORD (SHA-256 前台加密比对，源码不存明文密码)
+ * ============================================================ */
+var VIEW_PASS_HASH='70c918e418e8ddbc41685df3e4a300c41b4e65c7fbee7bf55c3aca232fa8413c';
+function rightRotate(value,amount){return (value>>>amount)|(value<<(32-amount));}
+function sha256Hex(ascii){
+  var maxWord=Math.pow(2,32), result='', words=[], asciiBitLength=ascii.length*8;
+  var hash=sha256Hex.h=sha256Hex.h||[], k=sha256Hex.k=sha256Hex.k||[];
+  var primeCounter=k.length, isComposite={};
+  for(var candidate=2; primeCounter<64; candidate++){
+    if(!isComposite[candidate]){
+      for(var i=0;i<313;i+=candidate) isComposite[i]=candidate;
+      hash[primeCounter]=(Math.pow(candidate,0.5)*maxWord)|0;
+      k[primeCounter++]=(Math.pow(candidate,1/3)*maxWord)|0;
+    }
+  }
+  ascii+='\x80';
+  while(ascii.length%64-56) ascii+='\x00';
+  for(var i=0;i<ascii.length;i++){
+    var j=ascii.charCodeAt(i);
+    if(j>>8) return '';
+    words[i>>2]|=j<<((3-i)%4)*8;
+  }
+  words[words.length]=(asciiBitLength/maxWord)|0;
+  words[words.length]=(asciiBitLength);
+  for(var j=0;j<words.length;){
+    var w=words.slice(j,j+=16), oldHash=hash;
+    hash=hash.slice(0,8);
+    for(var i=0;i<64;i++){
+      var w15=w[i-15], w2=w[i-2];
+      var a=hash[0], e=hash[4];
+      var temp1=hash[7]
+        +(rightRotate(e,6)^rightRotate(e,11)^rightRotate(e,25))
+        +((e&hash[5])^((~e)&hash[6]))
+        +k[i]
+        +((w[i]=(i<16)?w[i]:(w[i-16]+(rightRotate(w15,7)^rightRotate(w15,18)^(w15>>>3))+w[i-7]+(rightRotate(w2,17)^rightRotate(w2,19)^(w2>>>10)))|0));
+      var temp2=(rightRotate(a,2)^rightRotate(a,13)^rightRotate(a,22))+((a&hash[1])^(a&hash[2])^(hash[1]&hash[2]));
+      hash=[(temp1+temp2)|0].concat(hash);
+      hash[4]=(hash[4]+temp1)|0;
+    }
+    for(var i=0;i<8;i++) hash[i]=(hash[i]+oldHash[i])|0;
+  }
+  for(var i=0;i<8;i++){
+    for(var j=3;j+1;j--){
+      var b=(hash[i]>>(j*8))&255;
+      result+=((b<16)?0:'')+b.toString(16);
+    }
+  }
+  return result;
+}
+function tryUnlock(){
+  var pass=document.getElementById('vlPass').value;
+  var err=document.getElementById('vlErr');
+  if(!pass){ err.textContent='请输入查看密码'; err.classList.add('show'); return; }
+  if(sha256Hex(pass)===VIEW_PASS_HASH){
+    sessionStorage.setItem('ndgh_demo_unlocked','1');
+    document.getElementById('viewLock').classList.add('hide');
+  } else {
+    err.textContent='密码错误，请重试';
+    err.classList.add('show');
+    document.getElementById('vlPass').select();
+  }
+}
+(function(){
+  if(sessionStorage.getItem('ndgh_demo_unlocked')==='1'){
+    document.getElementById('viewLock').classList.add('hide');
+  }
+  document.getElementById('vlPass').addEventListener('keydown',function(e){
+    if(e.key==='Enter')tryUnlock();
+  });
+})();
+
+/* ================= 数据 ================= */
+var SITES=[
+  {id:1,name:"宁德市职工服务中心暖心驿站",addr:"宁德市蕉城区蕉城南路 66 号",lng:"119.5321",lat:"26.6617",open:"周一至周日 08:00-22:00（24 小时服务点）",fac:["饮水","休息","充电","医药箱","无线网络"],facC:["blue","green","blue","red","green"],vr:"https://720yun.com/t/ndzgh001",img:"☕",status:1},
+  {id:2,name:"东侨开发区万达爱心驿站",addr:"宁德市东侨开发区天湖东路 8 号万达广场 1 号门",lng:119.5276,lat:26.6592,open:"每日 09:00-21:30",fac:["饮水","微波炉","充电","休息","卫生间"],facC:["blue","green","blue","green","red"],vr:"",img:"☂",status:1},
+  {id:3,name:"蕉城区环卫工人驿站（八一五路）",addr:"宁德市蕉城区八一五西路 2 号",lng:119.5188,lat:26.6554,open:"每日 06:30-21:00",fac:["饮水","休息","医药箱","充电","报刊"],facC:["blue","green","red","blue","green"],vr:"",img:"🏗",status:1},
+  {id:4,name:"福鼎市桐山街道爱心驿站",addr:"宁德市福鼎市桐山街道中山中路 101 号",lng:120.2166,lat:27.3181,open:"周一至周六 08:00-20:00",fac:["饮水","休息","微波炉","充电","卫生间"],facC:["blue","green","blue","blue","red"],vr:"",img:"🌳",status:1},
+  {id:5,name:"霞浦县快递小哥服务站",addr:"宁德市霞浦县松城街道太康路 39 号",lng:120.0053,lat:26.8858,open:"每日 08:30-21:00",fac:["饮水","充电","无线网络","休息","微波炉"],facC:["blue","blue","green","green","blue"],vr:"",img:"📦",status:1},
+  {id:6,name:"古田县城区劳动者驿站",addr:"宁德市古田县解放路 213 号",lng:118.7463,lat:26.5782,open:"每日 08:00-22:00",fac:["饮水","休息","卫生间","医药箱"],facC:["blue","green","red","red"],vr:"",img:"🏠",status:0}
+];
+/* 组织树：含涵盖单位 units 与会员 members */
+function org(id,pid,name,lv,code,phone,leader,units,members){return {id:id,pid:pid,name:name,lv:lv,code:code,phone:phone,leader:leader,units:units||[],members:members||[],kids:[],open:false};}
+var ORGS=[
+  (function(){
+    var root=org(1,0,"宁德市总工会","市总工会","NDZGH","0593-2885XXX","王友雁");
+    var jc=org(2,1,"蕉城区总工会","县（区）总工会","NDJC","0593-2820XXX","李春梅",
+      [{name:"蕉城区环卫处",u:1},{name:"蕉城区住建局工会",u:1}],
+      [{name:"王小芳",phone:"137****6688",mem:"正常",u:"蕉城区环卫处"},{name:"陈志强",phone:"139****2208",mem:"正常",u:"蕉城区住建局"}]);
+    jc.kids.push(org(3,2,"蕉南街道工会联合会","基层工会","NDJN","0593-2056XXX","林美英"));
+    jc.kids.push(org(4,2,"蕉城环卫行业工会","基层工会","NDHW","0593-2831XXX","周清泉"));
+    var dq=org(5,1,"东侨经济技术开发区总工会","开发区总工会","NDDQ","0593-2896XXX","赵敏",
+      [{name:"宁德新能源科技有限公司",u:1},{name:"上汽宁德基地",u:1},{name:"宁德时代新能源工会",u:1}],
+      [{name:"林秀英",phone:"138****6612",mem:"正常",u:"宁德新能源科技有限公司"},{name:"吴文杰",phone:"159****8840",mem:"保留",u:"上汽宁德基地"}]);
+    dq.kids.push(org(6,5,"宁德新能源科技工会","基层工会","NDXNY","0593-2970XXX","张明",[{name:"宁德新能源科技有限公司",u:1}],[]));
+    dq.kids.push(org(7,5,"上汽宁德基地工会","基层工会","NDSQ","0593-2335XXX","郑强",[{name:"上汽宁德基地",u:1}],[]));
+    var fd=org(8,1,"福鼎市总工会","县级市总工会","NDFD","0593-7853XXX","黄小玲");
+    var xp=org(9,1,"霞浦县总工会","县总工会","NDXP","0593-8890XXX","蔡志伟");
+    root.kids=[jc,dq,fd,xp];
+    return root;
+  })()
+];
+var APPLY=[
+  {no:"GH20260917001",name:"林秀英",idc:"352201********0021",mobile:"139****6618",unit:"宁德新能源科技有限公司",file:"工作证明-林秀英.pdf",time:"2026-09-17 09:32",status:0,reason:""},
+  {no:"GH20260917002",name:"陈志强",idc:"352201********1015",mobile:"151****2208",unit:"蕉城区住建局",file:"工作证明-陈志强.jpg",time:"2026-09-17 10:05",status:0,reason:""},
+  {no:"GH20260917003",name:"王小芳",idc:"352202********0044",mobile:"137****6608",unit:"蕉城区环卫处",file:"工作证明-王小芳.png",time:"2026-09-16 15:20",status:1,reason:""},
+  {no:"GH20260917004",name:"吴文杰",idc:"352203********2213",mobile:"159****8848",unit:"上汽宁德基地",file:"工作证明-吴文杰.pdf",time:"2026-09-16 11:44",status:2,reason:"工作证明附件模糊，请重新上传清晰工作证明"}
+];
+var state={
+  role:"emp",
+  tab:"home",
+  adminMenu:"dashboard",
+  empUser:null,
+  adminUser:null,
+  captcha:"8F3K",
+  sentCode:"1234",
+  siteDetail:null,
+  siteKw:"",siteFac:"",
+  orgOpen:{1:true,2:true,5:true},
+  orgSel:1,
+  orgTab:"info",
+  myApply:null,
+  auditFilter:"全部",
+  adminAuditDetail:null
+};
+function esc(s){return String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
+function toast(msg){var t=document.createElement("div");t.className="toast";t.textContent=msg;document.body.appendChild(t);setTimeout(function(){t.remove()},1800);}
+function setRole(r){state.role=r;document.getElementById("roleEmp").className=r==="emp"?"on":"";document.getElementById("roleAdmin").className=r==="admin"?"on":"";render();}
+function setTab(t){state.tab=t;render();}
+function setMenu(m){state.adminMenu=m;render();}
+function pendingCount(){return APPLY.filter(function(a){return a.status===0}).length;}
+function statusTag(s){if(s===0)return '<span class="tag wait">待审核</span>';if(s===1)return '<span class="tag ok">已通过</span>';return '<span class="tag no">已驳回</span>';}
+function memTag(m){var c={"正常":"ok","保留":"blue","转出":"gray","开除":"no","退会":"no"}[m]||"gray";return '<span class="tag '+c+'">'+m+'</span>';}
+function orgCount(){var n=0;(function w(list){list.forEach(function(x){n++;if(x.kids&&x.kids.length)w(x.kids);});})(ORGS);return n;}
+function findOrg(id,list){if(!list)list=ORGS;for(var i=0;i<list.length;i++){if(list[i].id===id)return list[i];if(list[i].kids){var r=findOrg(id,list[i].kids);if(r)return r;}}return null;}
+
+/* ================= 登录页 ================= */
+function renderEmpLogin(){
+  return '<div class="phone-frame"><div class="ph-head"><h3>宁德市总工会</h3><p>竭诚服务职工群众 · 指尖入会一站通</p></div>'+
+    '<div class="phone-body" style="display:flex;flex-direction:column;justify-content:center">'+
+    '<div style="text-align:center;margin-bottom:20px"><div style="font-size:44px">🏛️</div>'+
+    '<div style="font-size:17px;font-weight:800;color:#7A101C;margin-top:6px">会员服务平台</div>'+
+    '<div style="font-size:11.5px;color:#999;margin-top:4px">职工端 · 手机号登录</div></div>'+
+    '<div class="card"><div class="field"><label>手机号</label><input id="empPhone" placeholder="请输入手机号" maxlength="11"></div>'+
+    '<div class="field"><label>验证码</label><div style="display:flex;gap:8px"><input id="empCode" placeholder="验证码" style="flex:1"><button class="btn sm gray" id="empSend" style="white-space:nowrap">获取验证码</button></div></div>'+
+    '<button class="btn block" id="empLogin" style="margin-top:4px">登 录</button>'+
+    '<div style="text-align:center;margin-top:12px"><button class="btn sm ghost" id="empDemo">演示账号一键登录</button></div></div>'+
+    '<div style="font-size:11px;color:#aaa;text-align:center;margin-top:10px;line-height:1.7">未注册用户登录后自动完成会员注册<br>演示：任意手机号 + 验证码 1234</div></div>'+
+    '<div class="phone-tabbar"></div></div>';
+}
+function renderAdminLogin(){
+  return '<div class="pc-frame" style="min-height:700px;justify-content:center;align-items:center"><div style="width:100%;max-width:420px;padding:20px">'+
+    '<div style="text-align:center;margin-bottom:18px"><div style="font-size:26px">🏛️</div>'+
+    '<div style="font-size:18px;font-weight:800;color:#7A101C;margin-top:8px">数字工会管理平台</div>'+
+    '<div style="font-size:12px;color:#999;margin-top:4px">管理端登录 · 账号为手机号，初始密码 888888</div></div>'+
+    '<div class="card" style="padding:22px"><div class="field"><label>账号（手机号）</label><input id="admPhone" placeholder="请输入手机号" maxlength="11"></div>'+
+    '<div class="field"><label>密码</label><input id="admPwd" type="password" placeholder="请输入密码" value="888888"></div>'+
+    '<div class="field"><label>验证码</label><div style="display:flex;gap:8px;align-items:center"><input id="admCode" placeholder="验证码" style="flex:1"><span id="admCap" style="background:linear-gradient(135deg,#F3C6CD,#E88D9C);color:#7A101C;font-weight:800;letter-spacing:3px;padding:8px 14px;border-radius:6px;cursor:pointer;font-size:15px">'+state.captcha+'</span></div></div>'+
+    '<button class="btn block" id="admLogin" style="margin-top:4px">登 录</button>'+
+    '<div style="text-align:center;margin-top:12px"><button class="btn sm ghost" id="admDemo">演示管理员一键登录</button></div></div>'+
+    '<div style="font-size:11px;color:#aaa;text-align:center;margin-top:10px">演示：任意手机号 + 密码 888888 + 验证码 '+state.captcha+'</div></div></div>';
+}
+
+/* ================= 手机端 ================= */
+function renderPhone(){
+  if(!state.empUser)return renderEmpLogin();
+  var body="";
+  if(state.tab==="home")body=renderEmpHome();
+  else if(state.tab==="apply")body=renderEmpApply();
+  else if(state.tab==="sites")body=state.siteDetail?renderEmpSiteDetail():renderEmpSites();
+  else body=renderEmpOrg();
+  var tabs=[["home","🏠","首页"],["apply","📝","入会申请"],["sites","📍","爱心站点"],["org","🏛","组织架构"]];
+  var tb="";
+  tabs.forEach(function(t){var on=state.tab===t[0]?"on":"";tb+='<div class="tab '+on+'" data-tab="'+t[0]+'"><span class="ico">'+t[1]+'</span>'+t[2]+'</div>';});
+  return '<div class="phone-frame"><div class="ph-head"><h3>宁德市总工会</h3><p>竭诚服务职工群众 · 指尖入会一站通</p></div>'+
+    '<div class="phone-body">'+body+'</div><div class="phone-tabbar">'+tb+'</div></div>';
+}
+function renderEmpHome(){
+  var my="";
+  if(state.myApply){
+    var c=statusTag(state.myApply.status);
+    my='<div class="card" data-act="apply" style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;cursor:pointer">'+
+      '<div><div style="font-size:13.5px;font-weight:700">我的入会申请</div><div style="font-size:11.5px;color:#999;margin-top:3px">编号：'+esc(state.myApply.no)+'</div></div><div>'+c+'</div></div>';
+  }
+  return '<div class="banner"><h4>欢迎使用宁德市总工会服务平台</h4><p>指尖入会 · 查找身边的爱心站点 · 查看工会组织</p></div>'+my+
+  '<div class="entry-grid">'+
+    '<div class="entry" data-entry="apply"><span class="e-ico">📝</span><span class="e-txt">入会申请</span></div>'+
+    '<div class="entry" data-entry="sites"><span class="e-ico">📍</span><span class="e-txt">爱心站点</span></div>'+
+    '<div class="entry" data-entry="org"><span class="e-ico">🏛</span><span class="e-txt">组织架构</span></div>'+
+  '</div>'+
+  '<div class="card"><div style="font-size:13px;font-weight:700;margin-bottom:8px">📢 服务公告</div>'+
+    '<div style="font-size:12px;color:#666;line-height:1.8">· 新就业形态劳动者可在线一键入会<br>· 全市爱心驿站地图持续更新中<br>· 入会申请 5 个工作日内完成审核</div></div>';
+}
+function renderEmpApply(){
+  if(!state.myApply)return renderApplyForm();
+  var a=state.myApply;
+  var steps='<div class="steps">'+
+    '<div class="step done"><div class="dot">✓</div>提交申请</div>'+
+    '<div class="step '+(a.status===0?"cur":"done")+'"><div class="dot">'+(a.status===0?"2":"✓")+'</div>审核中</div>'+
+    '<div class="step '+(a.status===1?"cur":"")+'"><div class="dot">'+(a.status===1?"✓":"3")+'</div>已通过</div></div>';
+  var extra="";
+  if(a.status===2){extra='<div class="card" style="background:#FDF3F5;border:1px solid #F3C6CD"><div style="font-size:12.5px;color:#C62828;font-weight:700;margin-bottom:6px">驳回原因</div><div style="font-size:12.5px;color:#7a2a33">'+esc(a.reason)+'</div></div>'+
+    '<button class="btn block" data-act="reapply" style="margin-top:10px">修改后重新提交</button>';}
+  return '<div class="back-btn" data-back="home">‹ 返回首页</div>'+
+    '<div class="card"><div style="font-size:15px;font-weight:700;margin-bottom:10px">我的入会申请</div>'+steps+
+    '<div class="kv"><div class="k">申请编号</div><div class="v">'+esc(a.no)+'</div></div>'+
+    '<div class="kv"><div class="k">姓名</div><div class="v">'+esc(a.name)+'</div></div>'+
+    '<div class="kv"><div class="k">身份证号</div><div class="v">'+esc(a.idcMask)+'</div></div>'+
+    '<div class="kv"><div class="k">手机号</div><div class="v">'+esc(a.mobile)+'</div></div>'+
+    '<div class="kv"><div class="k">工作单位</div><div class="v">'+esc(a.unit)+'</div></div>'+
+    '<div class="kv"><div class="k">提交时间</div><div class="v">'+esc(a.time)+'</div></div>'+
+    '<div class="kv" style="border-bottom:none"><div class="k">状态</div><div class="v">'+statusTag(a.status)+'</div></div></div>'+extra;
+}
+function renderApplyForm(){
+  return '<div class="card"><div style="font-size:15px;font-weight:700;margin-bottom:14px">工会会员入会申请表</div>'+
+    '<div class="field"><label>姓名 *</label><input id="fName" placeholder="请输入真实姓名"></div>'+
+    '<div class="field"><label>身份证号 *</label><input id="fIdc" placeholder="18 位身份证号码"></div>'+
+    '<div class="field"><label>手机号 *</label><input id="fMobile" placeholder="11 位手机号码"></div>'+
+    '<div class="field"><label>工作单位 *</label><input id="fUnit" placeholder="请输入工作单位名称"></div>'+
+    '<div class="field"><label>工作证明附件 *（jpg/png/pdf，≤5MB）</label>'+
+      '<div style="border:1.5px dashed #dcc6cc;border-radius:8px;padding:14px;text-align:center;color:#b98a93;font-size:12px;background:#FDFAFA">点击上传或拍照上传<br><span style="font-size:10.5px">原型演示：提交即视为已上传</span></div></div>'+
+    '<div class="field"><label>所属基层工会（选填）</label><select id="fOrg"><option value="">暂不确定，由单位归属</option><option>宁德新能源科技工会</option><option>上汽宁德基地工会</option><option>蕉城环卫行业工会</option></select></div>'+
+    '<button class="btn block" data-act="submitApply">提交入会申请</button></div>';
+}
+function renderEmpSites(){
+  var chips=[["全部",""],["饮水","饮水"],["充电","充电"],["休息","休息"],["微波炉","微波炉"]];
+  var c="";
+  chips.forEach(function(x){c+='<div class="chip '+(state.siteFac===x[1]?"on":"")+'" data-fac="'+x[1]+'">'+x[0]+'</div>';});
+  var list=SITES.filter(function(s){return s.status===1}).filter(function(s){if(state.siteFac&&s.fac.indexOf(state.siteFac)<0)return false;return true;});
+  var cards=list.map(function(s){
+    var facs=s.fac.slice(0,3).map(function(f,i){return '<span class="fac '+(s.facC[i]||"blue")+'">'+f+'</span>';}).join("");
+    return '<div class="site-card" data-site="'+s.id+'"><div class="site-thumb">'+s.img+'</div><div class="info">'+
+      '<div class="nm">'+esc(s.name)+'</div><div class="addr">'+esc(s.addr)+'</div>'+facs+'</div></div>';
+  }).join("");
+  if(!list.length)cards="<div style='text-align:center;color:#aaa;padding:30px 0'>暂无匹配站点</div>";
+  return '<div style="font-size:15px;font-weight:700;margin-bottom:10px">户外劳动者爱心站点</div><div class="chips">'+c+'</div>'+cards;
+}
+function renderEmpSiteDetail(){
+  var s=null;SITES.forEach(function(x){if(x.id===state.siteDetail)s=x;});
+  if(!s)return "";
+  var facs=s.fac.map(function(f,i){return '<span class="fac '+(s.facC[i]||"blue")+'">'+f+'</span>';}).join("");
+  var vr=s.vr?'<div class="kv"><div class="k">VR 全景</div><div class="v"><button class="btn sm gray" data-act="vr">进入全景查看 ›</button></div></div>':"";
+  return '<div class="back-btn" data-act="sites">‹ 返回站点列表</div>'+
+    '<div class="detail-hero"><div class="nm">'+esc(s.name)+'</div></div>'+
+    '<div class="card"><div class="kv"><div class="k">详细地址</div><div class="v">'+esc(s.addr)+'</div></div>'+
+    '<div class="kv"><div class="k">经纬度</div><div class="v">'+s.lng+', '+s.lat+'</div></div>'+
+    '<div class="kv"><div class="k">开放时间</div><div class="v">'+esc(s.open)+'</div></div>'+
+    '<div class="kv"><div class="k">便民设施</div><div class="v">'+facs+'</div></div>'+vr+
+    '<div class="kv" style="border-bottom:none"><div class="k">站点图片</div><div class="v"><span style="font-size:30px">'+s.img+'</span>（演示占位）</div></div></div>'+
+    '<button class="btn block" data-act="nav">🧭 导航前往</button>'+
+    '<button class="btn ghost block" style="margin-top:8px" data-act="vr">VR 全景浏览</button>';
+}
+function renderEmpOrg(){
+  function tree(node,depth){
+    var open=!!state.orgOpen[node.id];
+    var kids=(node.kids&&node.kids.length)?node.kids.map(function(k){return tree(k,depth+1);}).join(""):"";
+    var unitN=node.units?node.units.length:0;
+    return '<div class="org-node"><div class="row '+(open?"open":"")+'" data-org="'+node.id+'">'+
+      '<span class="arrow">▶</span><span class="nm">'+esc(node.name)+'</span>'+
+      (unitN?'<span class="org-badge">'+unitN+' 单位</span>':"")+'<span class="org-badge">'+node.lv+'</span></div>'+
+      '<div class="org-children'+(open?" show":"")+'">'+kids+'</div></div>';
+  }
+  var list=ORGS.map(function(o){return tree(o,0);}).join("");
+  var o=findOrg(state.orgSel)||ORGS[0];
+  return '<div style="font-size:15px;font-weight:700;margin-bottom:10px">工会组织架构</div>'+
+    '<div class="card"><div class="org-tree-h5">'+list+'</div>'+
+    '<div style="font-size:11px;color:#aaa;margin-top:8px">点击组织节点展开/收起，点击名称查看详情</div></div>'+
+    '<div class="card"><div style="font-size:13.5px;font-weight:700;margin-bottom:6px">'+esc(o.name)+' <span class="org-badge">'+o.lv+'</span></div>'+
+    '<div class="kv"><div class="k">上级组织</div><div class="v">'+esc(o.pid?findOrg(o.pid).name:"（根节点）")+'</div></div>'+
+    '<div class="kv"><div class="k">组织编码</div><div class="v">'+esc(o.code)+'</div></div>'+
+    '<div class="kv"><div class="k">涵盖单位</div><div class="v">'+(o.units?o.units.length:0)+' 家</div></div>'+
+    '<div class="kv" style="border-bottom:none"><div class="k">联系电话</div><div class="v">'+esc(o.phone)+'</div></div></div>';
+}
+
+/* ================= 管理端 ================= */
+function renderAdmin(){
+  if(!state.adminUser)return renderAdminLogin();
+  var menus=[["dashboard","📊","工作台"],["audit","📝","入会审核"],["org","🏛","组织管理"],["sites","📍","站点管理"]];
+  var m="";menus.forEach(function(x){m+='<div class="menu-item '+(state.adminMenu===x[0]?"on":"")+'" data-menu="'+x[0]+'">'+x[1]+' '+x[2]+'</div>';});
+  var title={dashboard:"工作台",audit:"入会申请审核",org:"工会组织管理",sites:"户外站点档案管理"}[state.adminMenu];
+  var body=state.adminMenu==="dashboard"?renderAdminDash():state.adminMenu==="audit"?renderAdminAudit():state.adminMenu==="sites"?renderAdminSites():renderAdminOrg();
+  return '<div class="pc-frame"><div class="pc-side"><div class="side-title">管理后台</div>'+m+'</div>'+
+    '<div class="pc-main"><div class="pc-top"><h2>'+title+'</h2><span class="admin-tag">管理员模式</span></div>'+
+    '<div class="pc-content">'+body+'</div></div></div>';
+}
+function renderAdminDash(){
+  var pc=pendingCount();
+  return '<div class="stat-cards">'+
+    '<div class="stat-card"><div class="v">'+pc+'</div><div class="l">待审核申请</div></div>'+
+    '<div class="stat-card"><div class="v">'+APPLY.length+'</div><div class="l">入会申请总数</div></div>'+
+    '<div class="stat-card"><div class="v">'+SITES.filter(function(s){return s.status===1}).length+'</div><div class="l">在用站点</div></div>'+
+    '<div class="stat-card"><div class="v">'+orgCount()+'</div><div class="l">工会组织节点</div></div></div>'+
+    '<div class="card"><div style="font-size:14px;font-weight:700;margin-bottom:10px">最新入会申请</div>'+
+    '<div class="table-scroll"><table class="data-table"><thead><tr><th>申请编号</th><th>姓名</th><th>单位</th><th>提交时间</th><th>状态</th><th>操作</th></tr></thead><tbody>'+
+    APPLY.slice(0,5).map(function(a){return '<tr><td>'+a.no+'</td><td>'+esc(a.name)+'</td><td>'+esc(a.unit)+'</td><td>'+a.time+'</td><td>'+statusTag(a.status)+'</td><td><button class="btn sm gray" data-view="'+a.no+'">详情</button></td></tr>';}).join("")+
+    '</tbody></table></div></div>'+
+    '<div class="card"><div style="font-size:14px;font-weight:700;margin-bottom:8px">快捷操作</div>'+
+    '<button class="btn sm" data-menu-jump="audit">去审核入会申请 →</button> <button class="btn sm ghost" data-menu-jump="org">组织管理 →</button> <button class="btn sm ghost" data-menu-jump="sites">站点档案 →</button></div>';
+}
+function renderAdminAudit(){
+  var f=state.auditFilter;
+  var chips=[["全部","全部"],["待审核","待审核"],["已通过","已通过"],["已驳回","已驳回"]];
+  var c="";chips.forEach(function(x){c+='<div class="chip '+(f===x[1]?"on":"")+'" data-afilter="'+x[1]+'">'+x[0]+'</div>';});
+  var list=APPLY.filter(function(a){return f==="全部"||(f==="待审核"?a.status===0:f==="已通过"?a.status===1:a.status===2);});
+  return '<div class="chips">'+c+'</div>'+
+    '<div class="table-scroll"><table class="data-table"><thead><tr><th>申请编号</th><th>姓名</th><th>身份证号</th><th>单位</th><th>提交时间</th><th>状态</th><th>操作</th></tr></thead><tbody>'+
+    list.map(function(a){
+      var op=a.status===0?'<button class="btn sm" data-approve="'+a.no+'">审核</button>':'<span style="font-size:11px;color:#aaa">已处理</span>';
+      return '<tr><td>'+a.no+'</td><td>'+esc(a.name)+'</td><td>'+a.idc+'</td><td>'+esc(a.unit)+'</td><td>'+a.time+'</td><td>'+statusTag(a.status)+'</td><td>'+op+'</td></tr>';
+    }).join("")+'</tbody></table></div>';
+}
+function renderAdminSites(){
+  return '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:8px">'+
+    '<div style="font-size:13px;color:#777">共 '+SITES.length+' 个站点档案（含停用）</div>'+
+    '<button class="btn sm" data-addsite>＋ 新增站点</button></div>'+
+    '<div class="table-scroll"><table class="data-table"><thead><tr><th>站点名称</th><th>地址</th><th>开放时间</th><th>状态</th><th>操作</th></tr></thead><tbody>'+
+    SITES.map(function(s){
+      var st=s.status===1?'<span class="tag ok">启用</span>':'<span class="tag gray">停用</span>';
+      return '<tr><td style="font-weight:600">'+esc(s.name)+'</td><td>'+esc(s.addr)+'</td><td>'+esc(s.open)+'</td><td>'+st+'</td><td><button class="btn sm gray" data-editsite="'+s.id+'">编辑</button> <button class="btn sm gray" data-togglesite="'+s.id+'">'+(s.status===1?"停用":"启用")+'</button></td></tr>';
+    }).join("")+'</tbody></table></div>';
+}
+
+/* ===== 组织管理（重点：按手册第三章） ===== */
+function renderOrgAdmin(nodes,selId,depth){
+  var out="";
+  nodes.forEach(function(n){
+    var open=!!state.orgOpen[n.id];
+    var sel=state.orgSel===n.id?" sel":"";
+    var hasKids=n.kids&&n.kids.length;
+    out+='<div class="org-node"><div class="row'+sel+' '+(open?"open":"")+'" data-orgsel="'+n.id+'">'+
+      '<span class="arrow">'+(hasKids?"▶":"")+'</span><span class="nm">'+esc(n.name)+'</span>'+
+      (hasKids?'<span class="cnt">'+(n.units?n.units.length:0)+'</span>':"")+'</div>';
+    if(hasKids)out+='<div class="org-children'+(open?" show":"")+'">'+renderOrgAdmin(n.kids,true,depth+1)+'</div>';
+    out+='</div>';
+  });
+  return out;
+}
+function renderOrgAdminPanel(){
+  var o=findOrg(state.orgSel)||ORGS[0];
+  var tabs=[["info","组织信息"],["units","涵盖单位 ("+((o.units||[]).length)+")"],["members","会员信息 ("+((o.members||[]).length)+")"]];
+  var t="";tabs.forEach(function(x){t+='<div class="ot '+(state.orgTab===x[0]?"on":"")+'" data-orgtab="'+x[0]+'">'+x[1]+'</div>';});
+  var content="";
+  if(state.orgTab==="info")content=renderOrgInfoTab(o);
+  else if(state.orgTab==="units")content=renderOrgUnitTab(o);
+  else content=renderOrgMemberTab(o);
+  return '<div class="org-layout">'+
+    '<div class="org-side"><div style="font-size:12px;font-weight:700;color:#7A101C;margin-bottom:8px">组织树</div>'+
+      renderOrgAdmin(ORGS,true,0)+
+      '<button class="btn sm block" style="margin-top:10px" data-collect>＋ 现有组织采集</button></div>'+
+    '<div class="org-main"><div class="org-tabs">'+t+'</div>'+content+'</div></div>';
+}
+function renderOrgInfoTab(o){
+  return '<div class="card"><div style="font-size:14px;font-weight:700;margin-bottom:10px">工会组织信息 · '+esc(o.name)+'</div>'+
+    '<div class="kv"><div class="k">组织名称</div><div class="v">'+esc(o.name)+'</div></div>'+
+    '<div class="kv"><div class="k">组织编码</div><div class="v">'+esc(o.code)+'</div></div>'+
+    '<div class="kv"><div class="k">组织层级</div><div class="v">'+o.lv+'</div></div>'+
+    '<div class="kv"><div class="k">上级组织</div><div class="v">'+(o.pid?esc(findOrg(o.pid).name):"—（根节点）")+'</div></div>'+
+    '<div class="kv"><div class="k">负责人</div><div class="v">'+esc(o.leader||"")+'</div></div>'+
+    '<div class="kv" style="border-bottom:none"><div class="k">联系电话</div><div class="v">'+esc(o.phone)+'</div></div>'+
+    '<div style="margin-top:12px"><button class="btn sm gray" data-orgedit>编辑组织信息</button> '+
+    '<button class="btn sm gray" data-collect>现有组织采集</button></div></div>';
+}
+function renderOrgUnitTab(o){
+  var units=o.units||[];
+  return '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:6px">'+
+    '<div style="font-size:12.5px;color:#777">工会涵盖单位 · 有效 '+units.length+' / 50</div>'+
+    '<div><button class="btn sm" data-addunit>＋ 添加单位</button> <button class="btn sm gray" data-expunit>导出 xls</button></div></div>'+
+    '<div class="table-scroll"><table class="data-table" style="min-width:480px"><thead><tr><th>单位名称</th><th>状态</th><th>操作</th></tr></thead><tbody>'+
+    (units.length?units.map(function(u){return '<tr><td style="font-weight:600">'+esc(u.name)+'</td><td>'+(u.u?'<span class="tag ok">有效</span>':'<span class="tag gray">退会</span>')+'</td><td><button class="btn sm gray" data-resign="'+esc(u.name)+'">退会</button></td></tr>';}).join(""):'<tr><td colspan="3" style="text-align:center;color:#aaa">暂无涵盖单位，点击「添加单位」录入</td></tr>')+
+    '</tbody></table></div>';
+}
+function renderOrgMemberTab(o){
+  var members=o.members||[];
+  return '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:6px">'+
+    '<div style="font-size:12.5px;color:#777">工会会员 · '+members.length+' 人</div>'+
+    '<div><button class="btn sm" data-addmember>＋ 添加会员</button> <button class="btn sm gray" data-memexport>导出 xls</button></div></div>'+
+    '<div class="table-scroll"><table class="data-table" style="min-width:640px"><thead><tr><th>姓名</th><th>手机号</th><th>所属单位</th><th>会籍状态</th><th>操作</th></tr></thead><tbody>'+
+    (members.length?members.map(function(m){return '<tr><td>'+esc(m.name)+'</td><td>'+esc(m.phone)+'</td><td>'+esc(m.u)+'</td><td>'+memTag(m.mem)+'</td><td><button class="btn sm gray" data-memchange="'+esc(m.name)+'">变更</button> <button class="btn sm gray" data-memlog="'+esc(m.name)+'">会籍变化</button></td></tr>';}).join(""):'<tr><td colspan="5" style="text-align:center;color:#aaa">暂无会员</td></tr>')+
+    '</tbody></table></div>';
+}
+function renderAdminOrg(){
+  var html=renderOrgAdminPanel();
+  return '<div style="font-size:12px;color:#888;margin-bottom:10px">按原系统操作手册第三章建设：组织树 → 现有组织采集 → 组织信息 / 涵盖单位 / 会员信息 / 组织管理员</div>'+html;
+}
+
+/* ================= 渲染入口 ================= */
+function render(){
+  var ua=document.getElementById("userArea");
+  var u=state.role==="emp"?state.empUser:state.adminUser;
+  if(ua){
+    if(u)ua.innerHTML='<span style="color:#fff;font-size:12px;margin-right:8px">👤 '+esc(u.name)+'</span><button id="btnLogout" style="background:rgba(255,255,255,.2);color:#fff;padding:4px 12px;border-radius:14px;font-size:12px">退出</button>';
+    else ua.innerHTML='<span style="color:rgba(255,255,255,.55);font-size:11px">未登录</span>';
+  }
+  var w=document.getElementById("wrap");
+  if(state.role==="emp"){w.innerHTML=renderPhone();}
+  else{w.innerHTML=renderAdmin();}
+  bindEvents();
+}
+
+/* ================= 事件绑定 ================= */
+function bindEvents(){
+  var i;
+  var tabs=document.querySelectorAll(".tab[data-tab]");
+  for(i=0;i<tabs.length;i++){(function(el){el.onclick=function(){setTab(el.getAttribute("data-tab"));};})(tabs[i]);}
+  var entries=document.querySelectorAll(".entry[data-entry]");
+  for(i=0;i<entries.length;i++){(function(el){el.onclick=function(){setTab(el.getAttribute("data-entry"));};})(entries[i]);}
+  var acts=document.querySelectorAll("[data-act]");
+  for(i=0;i<acts.length;i++){(function(el){
+    el.onclick=function(){
+      var act=el.getAttribute("data-act");
+      if(act==="home"){setTab("home");}
+      else if(act==="sites"){state.siteDetail=null;setTab("sites");}
+      else if(act==="submitApply"){submitApply();}
+      else if(act==="reapply"){state.myApply=null;setTab("apply");}
+      else if(act==="nav"){toast("演示：已拉起地图导航（高德/百度）");}
+      else if(act==="vr"){toast("演示：打开 VR 全景（新窗口）");}
+    };
+  })(acts[i]);}
+  var backs=document.querySelectorAll("[data-back]");
+  for(i=0;i<backs.length;i++){(function(el){el.onclick=function(){setTab(el.getAttribute("data-back"));};})(backs[i]);}
+  var facs=document.querySelectorAll("[data-fac]");
+  for(i=0;i<facs.length;i++){(function(el){el.onclick=function(){state.siteFac=el.getAttribute("data-fac");render();};})(facs[i]);}
+  var sCards=document.querySelectorAll("[data-site]");
+  for(i=0;i<sCards.length;i++){(function(el){el.onclick=function(){state.siteDetail=parseInt(el.getAttribute("data-site"),10);setTab("sites");};})(sCards[i]);}
+  // H5 组织树：展开/收起 + 选中
+  var orgs=document.querySelectorAll("[data-org]");
+  for(i=0;i<orgs.length;i++){(function(el){el.onclick=function(){
+    var id=parseInt(el.getAttribute("data-org"),10);
+    state.orgOpen[id]=!state.orgOpen[id];
+    state.orgSel=id;
+    render();
+  };})(orgs[i]);}
+  // 管理端组织树：选中
+  var orgsel=document.querySelectorAll("[data-orgsel]");
+  for(i=0;i<orgsel.length;i++){(function(el){el.onclick=function(){
+    var id=parseInt(el.getAttribute("data-orgsel"),10);
+    state.orgOpen[id]=!state.orgOpen[id];
+    state.orgSel=id;
+    render();
+  };})(orgsel[i]);}
+  // 组织 Tab 切换
+  var ott=document.querySelectorAll("[data-orgtab]");
+  for(i=0;i<ott.length;i++){(function(el){el.onclick=function(){state.orgTab=el.getAttribute("data-orgtab");render();};})(ott[i]);}
+  // 管理端菜单
+  var menus=document.querySelectorAll("[data-menu]");
+  for(i=0;i<menus.length;i++){(function(el){el.onclick=function(){setMenu(el.getAttribute("data-menu"));};})(menus[i]);}
+  var jumps=document.querySelectorAll("[data-menu-jump]");
+  for(i=0;i<jumps.length;i++){(function(el){el.onclick=function(){setMenu(el.getAttribute("data-menu-jump"));};})(jumps[i]);}
+  // 审核筛选
+  var af=document.querySelectorAll("[data-afilter]");
+  for(i=0;i<af.length;i++){(function(el){el.onclick=function(){state.auditFilter=el.getAttribute("data-afilter");render();};})(af[i]);}
+  // 工作台详情 / 审核
+  var views=document.querySelectorAll("[data-view]");
+  for(i=0;i<views.length;i++){(function(el){el.onclick=function(){auditDetailModal(el.getAttribute("data-view"));};})(views[i]);}
+  var appr=document.querySelectorAll("[data-approve]");
+  for(i=0;i<appr.length;i++){(function(el){el.onclick=function(){auditDetailModal(el.getAttribute("data-approve"));};})(appr[i]);}
+  // 站点编辑/停用/新增
+  var es=document.querySelectorAll("[data-editsite]");
+  for(i=0;i<es.length;i++){(function(el){el.onclick=function(){siteFormModal(parseInt(el.getAttribute("data-editsite"),10));};})(es[i]);}
+  var ts=document.querySelectorAll("[data-togglesite]");
+  for(i=0;i<ts.length;i++){(function(el){el.onclick=function(){
+    var id=parseInt(el.getAttribute("data-togglesite"),10);
+    SITES.forEach(function(x){if(x.id===id)x.status=x.status===1?0:1;});
+    toast("站点状态已更新");render();
+  };})(ts[i]);}
+  var add=document.querySelectorAll("[data-addsite]");
+  for(i=0;i<add.length;i++){(function(el){el.onclick=function(){siteFormModal(null);};})(add[i]);}
+  // 组织管理：现有组织采集 / 编辑组织 / 添加单位 / 导出 / 退会 / 添加会员 / 会员变更 / 会籍变化
+  var collect=document.querySelectorAll("[data-collect]");
+  for(i=0;i<collect.length;i++){(function(el){el.onclick=function(){collectModal();};})(collect[i]);}
+  var oedit=document.querySelectorAll("[data-orgedit]");
+  for(i=0;i<oedit.length;i++){(function(el){el.onclick=function(){orgEditModal();};})(oedit[i]);}
+  var addunit=document.querySelectorAll("[data-addunit]");
+  for(i=0;i<addunit.length;i++){(function(el){el.onclick=function(){unitModal();};})(addunit[i]);}
+  var expunit=document.querySelectorAll("[data-expunit]");
+  for(i=0;i<expunit.length;i++){(function(el){el.onclick=function(){toast("已导出涵盖单位 xls（演示）");};})(expunit[i]);}
+  var resign=document.querySelectorAll("[data-resign]");
+  for(i=0;i<resign.length;i++){(function(el){el.onclick=function(){
+    confirmBox("确认该单位进行退会操作！",function(){
+      var o=findOrg(state.orgSel);if(!o)return;
+      var un=el.getAttribute("data-resign");
+      o.units.forEach(function(u){if(u.name===un)u.u=0;});
+      o.members.forEach(function(m){if(m.u===un)m.mem="转出";});
+      toast("退会成功，该单位下员工入会状态已转为转出");
+      render();
+    });
+  };})(resign[i]);}
+  var addmem=document.querySelectorAll("[data-addmember]");
+  for(i=0;i<addmem.length;i++){(function(el){el.onclick=function(){memberModal();};})(addmem[i]);}
+  var memexp=document.querySelectorAll("[data-memexport]");
+  for(i=0;i<memexp.length;i++){(function(el){el.onclick=function(){toast("已导出会员信息 xls（演示）");};})(memexp[i]);}
+  var memch=document.querySelectorAll("[data-memchange]");
+  for(i=0;i<memch.length;i++){(function(el){el.onclick=function(){memberChangeModal(el.getAttribute("data-memchange"));};})(memch[i]);}
+  var memlog=document.querySelectorAll("[data-memlog]");
+  for(i=0;i<memlog.length;i++){(function(el){el.onclick=function(){memberLogModal(el.getAttribute("data-memlog"));};})(memlog[i]);}
+  // 登录页
+  var empSend=document.getElementById("empSend");
+  if(empSend)empSend.onclick=function(){toast("验证码已发送：1234（演示）");};
+  var empLogin=document.getElementById("empLogin");
+  if(empLogin)empLogin.onclick=function(){
+    var p=document.getElementById("empPhone").value.trim();
+    var c=document.getElementById("empCode").value.trim();
+    if(!/^1\d{10}$/.test(p)){toast("请输入正确的手机号");return;}
+    if(c!=="1234"){toast("验证码错误（演示：1234）");return;}
+    state.empUser={name:"职工",phone:p};
+    toast("登录成功，欢迎使用");
+    render();
+  };
+  var empDemo=document.getElementById("empDemo");
+  if(empDemo)empDemo.onclick=function(){state.empUser={name:"林秀英",phone:"139****6618"};toast("演示登录成功");render();};
+  var admCap=document.getElementById("admCap");
+  if(admCap)admCap.onclick=function(){
+    var chars="ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+    var s="";for(var k=0;k<4;k++)s+=chars[Math.floor(Math.random()*chars.length)];
+    state.captcha=s;render();
+  };
+  var admLogin=document.getElementById("admLogin");
+  if(admLogin)admLogin.onclick=function(){
+    var p=document.getElementById("admPhone").value.trim();
+    var pw=document.getElementById("admPwd").value.trim();
+    var c=document.getElementById("admCode").value.trim().toUpperCase();
+    if(!/^1\d{10}$/.test(p)){toast("请输入正确的手机号");return;}
+    if(pw!=="888888"){toast("密码错误（初始密码 888888）");return;}
+    if(c!==state.captcha){toast("验证码错误，请重新输入");return;}
+    state.adminUser={name:"管理员",phone:p};
+    toast("登录成功，进入管理后台");
+    render();
+  };
+  var admDemo=document.getElementById("admDemo");
+  if(admDemo)admDemo.onclick=function(){state.adminUser={name:"王友雁",phone:"139****6618"};toast("演示管理员登录成功");render();};
+  // 退出登录
+  var logout=document.getElementById("btnLogout");
+  if(logout)logout.onclick=function(){
+    if(state.role==="emp")state.empUser=null;else state.adminUser=null;
+    toast("已退出登录");render();
+  };
+}
+
+/* ================= 通用弹窗 ================= */
+function maskClose(mask){mask.onclick=function(e){if(e.target===mask)mask.remove();};}
+function maskClosers(mask){
+  var cs=mask.querySelectorAll("[data-close]");
+  for(var i=0;i<cs.length;i++){(function(el){el.onclick=function(){mask.remove();};})(cs[i]);}
+}
+function confirmBox(msg,cb){
+  var mask=document.createElement("div");mask.className="modal-mask";
+  mask.innerHTML='<div class="modal" style="max-width:380px"><h4>操作确认</h4><p style="font-size:14px;color:#444">'+esc(msg)+'</p>'+
+    '<div class="m-actions"><button class="btn gray" data-close="1">取消</button><button class="btn" id="cfOk">确认</button></div></div>';
+  document.body.appendChild(mask);mask.onclick=function(e){if(e.target===mask)mask.remove();};
+  maskClosers(mask);
+  document.getElementById("cfOk").onclick=function(){mask.remove();cb();};
+}
+
+/* ================= 入会申请提交 ================= */
+function submitApply(){
+  var name=document.getElementById("fName").value.trim();
+  var idc=document.getElementById("fIdc").value.trim();
+  var mobile=document.getElementById("fMobile").value.trim();
+  var unit=document.getElementById("fUnit").value.trim();
+  if(!name){toast("请填写姓名");return;}
+  if(!/^\d{17}[\dXx]$/.test(idc)){toast("身份证号格式不正确");return;}
+  if(!/^1\d{10}$/.test(mobile)){toast("手机号格式不正确");return;}
+  if(!unit){toast("请填写工作单位");return;}
+  var now=new Date();var pad=function(n){return n<10?"0"+n:n;};
+  var timeStr=now.getFullYear()+"-"+pad(now.getMonth()+1)+"-"+pad(now.getDate())+" "+pad(now.getHours())+":"+pad(now.getMinutes());
+  var no="GH"+timeStr.replace(/[-: ]/g,"").slice(2)+Math.floor(Math.random()*90+10);
+  state.myApply={no:no,name:name,idc:idc,idcMask:idc.slice(0,4)+"********"+idc.slice(-4),mobile:mobile,unit:unit,file:"工作证明-"+name+".jpg",time:timeStr,status:0,reason:""};
+  APPLY.unshift({no:no,name:name,idc:idc,idcMask:idc.slice(0,4)+"********"+idc.slice(-4),mobile:mobile,unit:unit,file:"工作证明-"+name+".jpg",time:timeStr,status:0,reason:""});
+  toast("申请已提交，请耐心等待审核");
+  setTab("apply");
+}
+
+/* ========== 审核弹窗 ========== */
+function auditDetailModal(no){
+  var a=null;APPLY.forEach(function(x){if(x.no===no)a=x;});
+  if(!a)return;
+  var mask=document.createElement("div");mask.className="modal-mask";mask.id="auditMask";
+  mask.innerHTML='<div class="modal"><h4>入会申请详情（'+a.no+'）</h4>'+
+    '<div class="kv"><div class="k">姓名</div><div class="v">'+esc(a.name)+'</div></div>'+
+    '<div class="kv"><div class="k">身份证号</div><div class="v">'+a.idc+'</div></div>'+
+    '<div class="kv"><div class="k">手机号</div><div class="v">'+a.mobile+'</div></div>'+
+    '<div class="kv"><div class="k">工作单位</div><div class="v">'+esc(a.unit)+'</div></div>'+
+    '<div class="kv"><div class="k">附件</div><div class="v">📎 '+esc(a.file)+'（点击预览）</div></div>'+
+    '<div class="kv"><div class="k">提交时间</div><div class="v">'+a.time+'</div></div>'+
+    '<div class="kv" style="border-bottom:none"><div class="k">当前状态</div><div class="v">'+statusTag(a.status)+'</div></div>'+
+    (a.status===0?'<div style="margin-top:14px"><div class="field"><label>审核意见（驳回时必填）</label><input id="auditReason" placeholder="填写驳回原因，或留空直接通过"></div></div>':'')+
+    '<div class="m-actions">'+
+    (a.status===0?'<button class="btn gray" id="auditReject">驳回</button><button class="btn" id="auditPass">审核通过</button>':'<button class="btn gray" data-close="1">关闭</button>')+
+    '</div></div>';
+  document.body.appendChild(mask);mask.onclick=function(e){if(e.target===mask)mask.remove();};
+  maskClosers(mask);
+  if(a.status===0){
+    document.getElementById("auditPass").onclick=function(){
+      a.status=1;mask.remove();toast("已通过："+a.name+" 的入会申请");
+      var o=findOrg(state.orgSel);if(o){o.members.push({name:a.name,phone:a.mobile,mem:"正常",u:a.unit});}
+      if(state.myApply&&state.myApply.no===a.no)state.myApply.status=1;
+      render();
+    };
+    document.getElementById("auditReject").onclick=function(){
+      var r=document.getElementById("auditReason").value.trim();
+      if(!r){toast("请填写驳回原因");return;}
+      a.status=2;a.reason=r;mask.remove();toast("已驳回："+a.name+" 的申请");
+      if(state.myApply&&state.myApply.no===a.no){state.myApply.status=2;state.myApply.reason=r;}
+      render();
+    };
+  }
+}
+
+/* ================= 组织管理弹窗 ================= */
+function collectModal(){
+  var o=findOrg(state.orgSel)||ORGS[0];
+  var mask=document.createElement("div");mask.className="modal-mask";mask.id="collectMask";
+  mask.innerHTML='<div class="modal"><h4>现有组织采集</h4>'+
+    '<div style="font-size:12px;color:#8a3a45;background:#FDF3F5;border-radius:8px;padding:8px 12px;margin-bottom:12px">上级组织：'+esc(o.name)+'</div>'+
+    '<div class="field"><label>组织名称 *</label><input id="cName" placeholder="请输入组织名称"></div>'+
+    '<div class="field"><label>组织编码 *</label><input id="cCode" placeholder="如 NDJD001"></div>'+
+    '<div class="field"><label>组织层级 *</label><select id="cLv"><option value="基层工会">基层工会</option><option value="县（区）总工会">县（区）总工会</option><option value="行业工会">行业工会</option></select></div>'+
+    '<div class="form-row"><div class="field"><label>负责人 *</label><input id="cLeader" placeholder="负责人姓名"></div>'+
+    '<div class="field"><label>联系电话 *</label><input id="cPhone" placeholder="联系电话"></div></div>'+
+    '<div class="field"><label>会员实名制信息采集表（选填）</label><div style="border:1.5px dashed #dcc6cc;border-radius:8px;padding:10px;text-align:center;color:#b98a93;font-size:12px;background:#FDFAFA">点击上传 Excel/附件</div></div>'+
+    '<div class="field"><label>涵盖单位信息采集表（选填）</label><div style="border:1.5px dashed #dcc6cc;border-radius:8px;padding:10px;text-align:center;color:#b98a93;font-size:12px;background:#FDFAFA">点击上传 Excel/附件</div></div>'+
+    '<div class="m-actions"><button class="btn gray" data-close="1">取消</button><button class="btn" id="cSave">提交</button></div></div>';
+  document.body.appendChild(mask);mask.onclick=function(e){if(e.target===mask)mask.remove();};
+  maskClosers(mask);
+  document.getElementById("cSave").onclick=function(){
+    var nm=document.getElementById("cName").value.trim();
+    var cd=document.getElementById("cCode").value.trim();
+    var lv=document.getElementById("cLv").value;
+    var ld=document.getElementById("cLeader").value.trim();
+    var ph=document.getElementById("cPhone").value.trim();
+    if(!nm||!cd||!lv||!ld||!ph){toast("请填写带 * 的必填项");return;}
+    var cur=findOrg(state.orgSel)||ORGS[0];
+    var nid=Date.now();
+    cur.kids=cur.kids||[];
+    cur.kids.push(org(nid,cur.id,nm,lv,cd,ph,ld,[],[]));
+    state.orgOpen[cur.id]=true;
+    state.orgSel=nid;
+    mask.remove();toast("组织采集成功，已加入组织树");render();
+  };
+}
+function orgEditModal(){
+  var o=findOrg(state.orgSel)||ORGS[0];
+  var mask=document.createElement("div");mask.className="modal-mask";
+  mask.innerHTML='<div class="modal"><h4>编辑组织信息 · '+esc(o.name)+'</h4>'+
+    '<div class="field"><label>组织名称 *</label><input id="eName" value="'+esc(o.name)+'"></div>'+
+    '<div class="field"><label>负责人</label><input id="eLeader" value="'+esc(o.leader||"")+'"></div>'+
+    '<div class="field"><label>联系电话</label><input id="ePhone" value="'+esc(o.phone)+'"></div>'+
+    '<div class="m-actions"><button class="btn gray" data-close="1">取消</button><button class="btn" id="eSave">保存</button></div></div>';
+  document.body.appendChild(mask);mask.onclick=function(e){if(e.target===mask)mask.remove();};
+  maskClosers(mask);
+  document.getElementById("eSave").onclick=function(){
+    o.name=document.getElementById("eName").value.trim()||o.name;
+    o.leader=document.getElementById("eLeader").value.trim();
+    o.phone=document.getElementById("ePhone").value.trim();
+    mask.remove();toast("组织信息已保存");render();
+  };
+}
+function unitModal(){
+  var o=findOrg(state.orgSel)||ORGS[0];
+  var mask=document.createElement("div");mask.className="modal-mask";
+  var cur=(o.units||[]).filter(function(u){return u.u===1;}).length;
+  mask.innerHTML='<div class="modal"><h4>添加涵盖单位</h4>'+
+    '<div class="org-tabs" style="margin-bottom:12px"><div class="ot on" data-utab="single">单个添加</div><div class="ot" data-utab="batch">批量添加</div></div>'+
+    '<div id="unitSingle"><div class="field"><label>单位名称（一次最多 5 个）*</label>'+
+      [1,2,3,4,5].map(function(i){return '<input style="margin-bottom:6px" id="un'+i+'" placeholder="单位名称 '+i+'">';}).join("")+'</div>'+
+    '<div style="font-size:11px;color:#999;margin-bottom:8px">当前有效 '+cur+' / 50 个</div></div>'+
+    '<div id="unitBatch" style="display:none"><div class="field"><label>批量导入</label><div style="border:1.5px dashed #dcc6cc;border-radius:8px;padding:10px;text-align:center;color:#b98a93;font-size:12px;background:#FDFAFA">下载模板 · 上传 Excel 批量导入</div></div></div>'+
+    '<div class="m-actions"><button class="btn gray" data-close="1">取消</button><button class="btn" id="uSave">添加</button></div></div>';
+  document.body.appendChild(mask);mask.onclick=function(e){if(e.target===mask)mask.remove();};
+  maskClosers(mask);
+  var utabs=mask.querySelectorAll("[data-utab]");
+  for(var i=0;i<utabs.length;i++){(function(el){el.onclick=function(){
+    var m=mask.querySelectorAll("[data-utab]");
+    for(var j=0;j<m.length;j++)m[j].className="ot"+(m[j]===el?" on":"");
+    mask.querySelector("#unitSingle").style.display=el.getAttribute("data-utab")==="single"?"block":"none";
+    mask.querySelector("#unitBatch").style.display=el.getAttribute("data-utab")==="batch"?"block":"none";
+  };})(utabs[i]);}
+  document.getElementById("uSave").onclick=function(){
+    var added=0;
+    for(var i=1;i<=5;i++){
+      var v=mask.querySelector("#un"+i).value.trim();
+      if(v){o.units=o.units||[];o.units.push({name:v,u:1});added++;}
+    }
+    if(!added){toast("请至少输入一个单位名称");return;}
+    mask.remove();toast("已添加 "+added+" 个涵盖单位");render();
+  };
+}
+function memberModal(){
+  var o=findOrg(state.orgSel)||ORGS[0];
+  var mask=document.createElement("div");mask.className="modal-mask";
+  mask.innerHTML='<div class="modal"><h4>添加会员</h4>'+
+    '<div class="org-tabs" style="margin-bottom:12px"><div class="ot on" data-mtab="single">单个添加</div><div class="ot" data-mtab="batch">批量添加</div></div>'+
+    '<div id="mSingle"><div class="field"><label>会员姓名</label><input id="mmName" placeholder="姓名"></div>'+
+    '<div class="field"><label>手机号</label><input id="mmPhone" placeholder="手机号"></div>'+
+    '<div class="field"><label>所属单位</label><input id="mmUnit" placeholder="单位名称"></div></div>'+
+    '<div id="mBatch" style="display:none"><div class="field"><label>批量导入</label><div style="border:1.5px dashed #dcc6cc;border-radius:8px;padding:10px;text-align:center;color:#b98a93;font-size:12px;background:#FDFAFA">下载模板 · 上传 Excel 批量导入</div></div></div>'+
+    '<div class="m-actions"><button class="btn gray" data-close="1">取消</button><button class="btn" id="mSave">添加</button></div></div>';
+  document.body.appendChild(mask);mask.onclick=function(e){if(e.target===mask)mask.remove();};
+  maskClosers(mask);
+  var mtabs=mask.querySelectorAll("[data-mtab]");
+  for(var i=0;i<mtabs.length;i++){(function(el){el.onclick=function(){
+    var ab=mask.querySelectorAll("[data-mtab]");
+    for(var j=0;j<ab.length;j++){ab[j].className="on"+(ab[j]===el?" on":"");}
+    mask.querySelector("#mSingle").style.display=el.getAttribute("data-mtab")==="single"?"block":"none";
+    mask.querySelector("#mBatch").style.display=el.getAttribute("data-mtab")==="batch"?"block":"none";
+  };})(mtabs[i]);}
+  document.getElementById("mSave").onclick=function(){
+    var nm=mask.querySelector("#mmName").value.trim();
+    var ph=mask.querySelector("#mmPhone").value.trim();
+    var un=mask.querySelector("#mmUnit").value.trim();
+    if(!nm){toast("请填写会员姓名");return;}
+    var co=findOrg(state.orgSel)||ORGS[0];
+    co.members=co.members||[];co.members.push({name:nm,phone:ph,mem:"正常",u:un||"未填单位"});
+    mask.remove();toast("会员已添加");render();
+  };
+}
+function memberChangeModal(name){
+  var o=findOrg(state.orgSel)||ORGS[0];
+  var m=null;(o.members||[]).forEach(function(x){if(x.name===name)m=x;});
+  if(!m)return;
+  var actions=[["保留","保留会籍"],["转出","转出会籍"],["开除","开除会籍"],["退会","退会会籍"],["恢复","恢复会籍（仅保留状态）"],["重置密码","重置密码为 888888"],["信息变更","信息变更"]];
+  var btns=actions.map(function(a){
+    return '<button class="btn sm '+(a[0]==="重置密码"||a[0]==="信息变更"?"gray":"")+'" data-mact="'+a[0]+'" style="margin:3px">'+a[1]+'</button>';
+  }).join("");
+  var mask=document.createElement("div");mask.className="modal-mask";
+  mask.innerHTML='<div class="modal"><h4>会员变更 · '+esc(m.name)+'</h4>'+
+    '<div class="kv"><div class="k">所属单位</div><div class="v">'+esc(m.u)+'</div></div>'+
+    '<div class="kv" style="border-bottom:none"><div class="k">当前会籍</div><div class="v">'+memTag(m.mem)+'</div></div>'+
+    '<div style="margin-top:12px">'+btns+'</div>'+
+    '<div class="m-actions"><button class="btn gray" data-close="1">关闭</button></div></div>';
+  document.body.appendChild(mask);mask.onclick=function(e){if(e.target===mask)mask.remove();};
+  maskClosers(mask);
+  var acts=mask.querySelectorAll("[data-mact]");
+  for(var i=0;i<acts.length;i++){(function(el){
+    el.onclick=function(){
+      var act=el.getAttribute("data-mact");
+      if(act==="重置密码"){confirmBox("确认该会员重置密码为 888888？",function(){mask.remove();toast("已重置密码");render();});}
+      else if(act==="信息变更"){memberInfoChangeModal(name);}
+      else{
+        var tip={"保留":"确认该会员进行保留会籍操作！","转出":"确认该会员进行转出会籍操作！","开除":"确认该会员进行开除会籍操作！","退会":"确认该会员进行退会操作！"}[act];
+        confirmBox(tip,function(){
+          m.mem=act;mask.remove();toast("已执行："+act+"操作");render();
+        });
+      }
+    };
+  })(acts[i]);}
+}
+function memberInfoChangeModal(){
+  var o=findOrg(state.orgSel)||ORGS[0];
+  var mask=document.createElement("div");mask.className="modal-mask";
+  mask.innerHTML='<div class="modal"><h4>会员信息变更</h4>'+
+    '<div class="field"><label>姓名</label><input id="icName"></div>'+
+    '<div class="field"><label>手机号</label><input id="icPhone"></div>'+
+    '<div class="field"><label>所属单位</label><input id="icUnit"></div>'+
+    '<div class="m-actions"><button class="btn gray" data-close="1">取消</button><button class="btn" id="icSave">提交</button></div></div>';
+  document.body.appendChild(mask);mask.onclick=function(e){if(e.target===mask)mask.remove();};
+  maskClosers(mask);
+  document.getElementById("icSave").onclick=function(){mask.remove();toast("会员信息已更新");render();};
+}
+function memberLogModal(name){
+  var logs=[
+    {t:"2026-03-12 09:20",act:"转入",note:"入会申请审核通过"},
+    {t:"2026-06-08 14:35",act:"保留",note:"离职待恢复"},
+    {t:"2026-09-10 10:02",act:"恢复",note:"恢复会籍"}
+  ];
+  var mask=document.createElement("div");mask.className="modal-mask";
+  mask.innerHTML='<div class="modal" style="max-width:440px"><h4>会籍变化 · '+esc(name)+'</h4>'+
+    logs.map(function(l){return '<div class="kv"><div class="k">'+l.t+'</div><div class="v">'+l.act+' · <span style="color:#999">'+l.note+'</span></div></div>';}).join("")+
+    '<div class="m-actions"><button class="btn gray" data-close="1">关闭</button></div></div>';
+  document.body.appendChild(mask);mask.onclick=function(e){if(e.target===mask)mask.remove();};
+  maskClosers(mask);
+}
+
+/* ================= 站点表单弹窗 ================= */
+function siteFormModal(id){
+  var s=null;SITES.forEach(function(x){if(x.id===id)s=x;});
+  var isNew=!s;
+  var mask=document.createElement("div");mask.className="modal-mask";mask.id="siteMask";
+  mask.innerHTML='<div class="modal"><h4>'+(isNew?"新增站点档案":"编辑站点档案")+'</h4>'+
+    '<div class="field"><label>站点名称 *</label><input id="sfName" placeholder="如：宁德市职工服务中心暖心驿站" value="'+esc(s?s.name:"")+'"></div>'+
+    '<div class="field"><label>详细地址 *</label><input id="sfAddr" placeholder="详细地址" value="'+esc(s?s.addr:"")+'"></div>'+
+    '<div class="form-row"><div class="field"><label>经度 *</label><input id="sfLng" value="'+esc(s?s.lng:"")+'" placeholder="119.5321"></div>'+
+    '<div class="field"><label>纬度 *</label><input id="sfLat" value="'+esc(s?s.lat:"")+'" placeholder="26.6617"></div></div>'+
+    '<div class="field"><label>开放时间 *</label><input id="sfOpen" value="'+esc(s?s.open:"")+'" placeholder="每日 08:00-22:00"></div>'+
+    '<div class="field"><label>便民设施（多选）</label><div id="sfFac">'+
+    ["饮水","休息","充电","微波炉","医药箱","卫生间","报刊","无线网络"].map(function(f){
+      var on=s&&s.fac.indexOf(f)>=0?" checked":"";
+      return '<label style="display:inline-block;margin:4px 10px 0 0;font-size:12.5px;font-weight:400"><input type="checkbox" class="facbox" value="'+f+'"'+on+'> '+f+'</label>';
+    }).join("")+'</div></div>'+
+    '<div class="field"><label>VR 地址（选填）</label><input id="sfVr" value="'+esc(s?s.vr:"")+'" placeholder="https://..."></div>'+
+    '<div class="m-actions"><button class="btn gray" data-close="1">取消</button><button class="btn" id="sfSave">保存</button></div></div>';
+  document.body.appendChild(mask);mask.onclick=function(e){if(e.target===mask)mask.remove();};
+  maskClosers(mask);
+  document.getElementById("sfSave").onclick=function(){
+    var nm=document.getElementById("sfName").value.trim();
+    var ad=document.getElementById("sfAddr").value.trim();
+    var lng=document.getElementById("sfLng").value.trim();
+    var lat=document.getElementById("sfLat").value.trim();
+    var op=document.getElementById("sfOpen").value.trim();
+    if(!nm||!ad||!lng||!lat||!op){toast("请填写完整必填项");return;}
+    var facs=[];var boxes=mask.querySelectorAll(".facbox");
+    for(var b=0;b<boxes.length;b++){if(boxes[b].checked)facs.push(boxes[b].value);}
+    if(!facs.length)facs=["饮水"];
+    var vr=document.getElementById("sfVr").value.trim();
+    var colors=["blue","green","red"];
+    var data={name:nm,addr:ad,lng:lng,lat:lat,open:op,fac:facs,facC:facs.map(function(f,i){return colors[i%3];}),vr:vr,img:"☕"};
+    if(isNew){data.id=Date.now();data.status=1;SITES.push(data);toast("站点已新增");}
+    else{for(var k=0;k<SITES.length;k++){if(SITES[k].id===id){for(var key in data){SITES[k][key]=data[key];}}toast("站点已保存");}}
+    mask.remove();render();
+  };
+}
+
+/* ================= 初始化 ================= */
+document.getElementById("roleEmp").onclick=function(){setRole("emp");};
+document.getElementById("roleAdmin").onclick=function(){setRole("admin");};
+function applyHash(){
+  var h=location.hash.replace("#","");
+  if(h==="admin"){state.role="admin";state.adminMenu="dashboard";}
+  else if(h==="admin-org"){state.role="admin";state.adminMenu="org";}
+  else if(h==="admin-audit"){state.role="admin";state.adminMenu="audit";}
+  else if(h==="admin-sites"){state.role="admin";state.adminMenu="sites";}
+  else if(h==="emp"){state.role="emp";}
+}
+window.addEventListener("hashchange",function(){applyHash();render();});
+applyHash();
+render();
+</script>
+</body>
+</html>
