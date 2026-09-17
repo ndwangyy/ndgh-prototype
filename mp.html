@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>宁德市总工会会员服务平台 · 交互原型 V1.1</title>
+<title>宁德市总工会会员服务平台 · 微信小程序端原型 V1.2</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 body{font-family:-apple-system,"Microsoft YaHei","PingFang SC","Segoe UI",sans-serif;background:#f0eef1;color:#2a2222;-webkit-font-smoothing:antialiased}
@@ -17,6 +17,8 @@ input,select,textarea{font-family:inherit;outline:none}
 .role-switch{display:flex;background:rgba(255,255,255,.16);border-radius:20px;padding:3px}
 .role-switch button{color:#fff;font-size:12.5px;padding:6px 16px;border-radius:18px}
 .role-switch button.on{background:#fff;color:#8E001E;font-weight:700}
+.peer-link{background:rgba(255,255,255,.16);color:#fff;font-size:12.5px;padding:6px 16px;border-radius:18px;text-decoration:none;white-space:nowrap}
+.peer-link:hover{background:rgba(255,255,255,.28)}
 .desktop-wrap{display:flex;gap:20px;padding:20px;justify-content:center;align-items:flex-start}
 
 /* ========== 手机外框 ========== */
@@ -112,7 +114,8 @@ table.data-table tr:hover td{background:#fdf9f9}
 .modal h4{font-size:16px;color:#333;margin-bottom:14px}
 .modal .m-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:16px}
 .modal .m-actions.wrap{flex-wrap:wrap}
-.toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:rgba(0,0,0,.8);color:#fff;padding:10px 22px;border-radius:22px;font-size:13px;z-index:300;animation:tin .25s ease}
+.toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:rgba(0,0,0,.8);color:#fff;padding:10px 22px;border-radius:22px;font-size:13px;z-index:300;animation:tin .25s ease;white-space:nowrap}
+.phone-frame .toast{position:absolute;left:50%;bottom:76px}
 @keyframes tin{from{opacity:0;transform:translateX(-50%) translateY(8px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
 
 /* 首页卡片 */
@@ -146,6 +149,58 @@ table.data-table tr:hover td{background:#fdf9f9}
 .steps .step.done .dot{background:#E85460;color:#fff}
 .steps .step.cur .dot{background:#E12E3E;color:#fff;box-shadow:0 0 0 4px #F9DDE0}
 .steps .step.cur{color:#E12E3E;font-weight:700}
+
+/* ===== 微信小程序外壳 ===== */
+.wx-status{display:flex;justify-content:space-between;font-size:10px;color:rgba(255,255,255,.9);padding:5px 14px 0}
+.wx-navrow{display:flex;align-items:center;justify-content:center;position:relative;padding-top:2px}
+.wx-capsule{position:absolute;right:12px;top:4px;display:flex;align-items:center;gap:7px;background:rgba(0,0,0,.22);border:0.5px solid rgba(255,255,255,.4);border-radius:16px;padding:4px 11px;color:#fff;font-size:11px}
+.wx-capsule .c-dot{width:6px;height:6px;border-radius:50%;background:#fff;display:inline-block}
+.wx-capsule .c-bar{width:2px;height:10px;background:rgba(255,255,255,.8);border-radius:2px;display:inline-block}
+.wx-btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;margin-top:6px;padding:12px;background:#07C160;color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:700}
+.wx-btn:active{opacity:.9}
+
+/* ===== 驿站地图（管理端模拟 GIS） ===== */
+.yz-tabs{display:flex;border-bottom:2px solid #f0eef2;margin-bottom:12px}
+.yz-tabs .ot{flex:1;text-align:center;padding:10px;font-size:13px;font-weight:600;color:#888;cursor:pointer;border-bottom:3px solid transparent}
+.yz-tabs .ot.on{color:#E12E3E;border-bottom-color:#E12E3E}
+.gis-map{position:relative;height:430px;border-radius:12px;overflow:hidden;background:linear-gradient(135deg,#e8efe6,#dce9dc 40%,#cfe0d2);border:1px solid #cfdccf}
+.gis-grid{position:absolute;inset:0;background-image:linear-gradient(#ffffff55 1px,transparent 1px),linear-gradient(90deg,#ffffff55 1px,transparent 1px);background-size:44px 44px}
+.gis-road{position:absolute;background:#f7f4ea;height:10px;left:0;right:0;top:38%;transform:rotate(-3deg);box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.gis-road.v{width:10px;top:0;bottom:0;left:46%;height:auto;transform:rotate(2deg)}
+.gis-dot{position:absolute;width:22px;height:22px;border-radius:50% 50% 50% 4px;background:#E12E3E;border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.3);cursor:pointer;transform:rotate(-45deg);z-index:5}
+.gis-dot.off{background:#9e9e9e}
+.gis-dot.sel{background:#7A101C;box-shadow:0 0 0 4px rgba(225,46,62,.35);z-index:8}
+.gis-dot i{position:absolute;inset:5px;background:#fff;border-radius:50%;transform:rotate(45deg)}
+.gis-dot .num{position:absolute;top:-9px;left:20px;background:#E12E3E;color:#fff;font-size:9px;padding:0 5px;border-radius:8px;font-style:normal;white-space:nowrap}
+.gis-pop{position:absolute;background:#fff;border-radius:10px;box-shadow:0 4px 16px rgba(0,0,0,.18);padding:10px 12px;font-size:11px;width:190px;z-index:6;display:none}
+.phone-frame .gis-pop{left:50% !important;top:8px !important;width:calc(100% - 16px);transform:translateX(-50%);box-shadow:0 4px 14px rgba(0,0,0,.22)}
+.gis-pop.show{display:block}
+.gis-pop .t{font-weight:700;font-size:12px;color:#333;margin-bottom:3px}
+.gis-pop .a{color:#888;font-size:10.5px;line-height:1.5;margin-bottom:3px}
+.gis-pop .f{display:flex;gap:10px;color:#C62828;font-weight:700;font-size:10.5px;margin-bottom:6px}
+.gis-pop .d{color:#1565C0;font-size:10.5px;cursor:pointer;text-align:center;background:#E3F2FD;border-radius:6px;padding:3px 0}
+.gis-legend{position:absolute;left:10px;bottom:10px;background:rgba(255,255,255,.92);border-radius:8px;padding:8px 10px;font-size:10.5px;color:#555;z-index:4;line-height:1.8}
+.gis-legend .lg{display:flex;align-items:center;gap:6px}
+.gis-legend .ico{width:10px;height:10px;border-radius:50% 50% 50% 2px;display:inline-block}
+.map-flow{display:inline-block;background:#FDE9EC;color:#C62828;font-size:10px;padding:1px 6px;border-radius:8px;margin-left:4px}
+
+/* ===== 便民类目 ===== */
+.cat-group{margin-bottom:10px}
+.cat-group .gt{font-size:12px;font-weight:700;color:#7A101C;margin:8px 0 6px}
+.fac-opt{display:inline-block;font-size:11.5px;background:#f3f1f4;color:#666;padding:5px 12px;border-radius:14px;margin:3px 4px 3px 0;cursor:pointer}
+.fac-opt.on{background:#E12E3E;color:#fff}
+.fac-opt.off{opacity:.4;cursor:not-allowed;text-decoration:line-through}
+.cat-row{display:flex;align-items:center;gap:8px;padding:8px 10px;background:#faf8fa;border-radius:8px;margin-bottom:6px;cursor:pointer}
+.cat-row .cn{flex:1;font-size:13px;font-weight:600;color:#444}
+.cat-row .cc{font-size:11px;color:#999}
+.addr-tabs{display:flex;background:#f5f3f6;border-radius:8px;padding:3px;margin-bottom:10px}
+.addr-tabs .at{flex:1;text-align:center;font-size:11.5px;padding:6px;border-radius:6px;color:#888;cursor:pointer}
+.addr-tabs .at.on{background:#fff;color:#E12E3E;font-weight:700;box-shadow:0 1px 3px rgba(0,0,0,.1)}
+.addr-pick-map{height:130px;border-radius:10px;background:linear-gradient(135deg,#e8efe6,#dce9dc);border:1px dashed #b9cdb9;position:relative;margin-bottom:8px}
+.addr-pick-map .pin{position:absolute;left:50%;top:45%;width:20px;height:20px;border-radius:50% 50% 50% 4px;background:#E12E3E;border:2px solid #fff;transform:translate(-50%,-50%) rotate(-45deg)}
+.addr-sug{background:#fff;border:1px solid #eee;border-radius:8px;margin-top:6px;max-height:110px;overflow-y:auto}
+.addr-sug .sg{padding:8px 12px;font-size:12px;color:#555;border-bottom:1px solid #f5f3f5;cursor:pointer}
+.addr-sug .sg:hover{background:#fdf6f6}
 
 /* ===== 查看密码门 ===== */
 .view-lock{position:fixed;inset:0;z-index:9999;background:linear-gradient(135deg,#8F1521 0%,#C81E2E 55%,#E04A52 100%);display:flex;align-items:center;justify-content:center;padding:20px}
@@ -184,6 +239,13 @@ table.data-table tr:hover td{background:#fdf9f9}
   .entry-grid{grid-template-columns:repeat(3,1fr);gap:6px}
   .stat-cards{grid-template-columns:1fr 1fr;gap:8px}
 }
+
+/* ===== 小程序端全屏演示：无顶栏，手机打开即全屏 ===== */
+@media(max-width:860px){
+  .desktop-wrap{padding:0;gap:0}
+  .phone-frame{width:100%;max-width:none;min-height:100vh;border-radius:0;border:none;box-shadow:none}
+  .phone-body{max-height:none;flex:1}
+}
 </style>
 </head>
 <body>
@@ -202,14 +264,7 @@ table.data-table tr:hover td{background:#fdf9f9}
   </div>
 </div>
 
-<div class="topbar">
-  <div class="brand">宁德市总工会会员服务平台 <small>交互原型演示 · V1.1</small></div>
-  <div class="role-switch">
-    <button id="roleEmp" class="on">职工端 H5</button>
-    <button id="roleAdmin">管理端 Web</button>
-  </div>
-  <div class="user-area" id="userArea" style="min-width:10px;text-align:right"></div>
-</div>
+
 
 <div class="desktop-wrap" id="wrap"></div>
 
@@ -288,12 +343,20 @@ function tryUnlock(){
 
 /* ================= 数据 ================= */
 var SITES=[
-  {id:1,name:"宁德市职工服务中心暖心驿站",addr:"宁德市蕉城区蕉城南路 66 号",lng:"119.5321",lat:"26.6617",open:"周一至周日 08:00-22:00（24 小时服务点）",fac:["饮水","休息","充电","医药箱","无线网络"],facC:["blue","green","blue","red","green"],vr:"https://720yun.com/t/ndzgh001",img:"☕",status:1},
-  {id:2,name:"东侨开发区万达爱心驿站",addr:"宁德市东侨开发区天湖东路 8 号万达广场 1 号门",lng:119.5276,lat:26.6592,open:"每日 09:00-21:30",fac:["饮水","微波炉","充电","休息","卫生间"],facC:["blue","green","blue","green","red"],vr:"",img:"☂",status:1},
-  {id:3,name:"蕉城区环卫工人驿站（八一五路）",addr:"宁德市蕉城区八一五西路 2 号",lng:119.5188,lat:26.6554,open:"每日 06:30-21:00",fac:["饮水","休息","医药箱","充电","报刊"],facC:["blue","green","red","blue","green"],vr:"",img:"🏗",status:1},
-  {id:4,name:"福鼎市桐山街道爱心驿站",addr:"宁德市福鼎市桐山街道中山中路 101 号",lng:120.2166,lat:27.3181,open:"周一至周六 08:00-20:00",fac:["饮水","休息","微波炉","充电","卫生间"],facC:["blue","green","blue","blue","red"],vr:"",img:"🌳",status:1},
-  {id:5,name:"霞浦县快递小哥服务站",addr:"宁德市霞浦县松城街道太康路 39 号",lng:120.0053,lat:26.8858,open:"每日 08:30-21:00",fac:["饮水","充电","无线网络","休息","微波炉"],facC:["blue","blue","green","green","blue"],vr:"",img:"📦",status:1},
-  {id:6,name:"古田县城区劳动者驿站",addr:"宁德市古田县解放路 213 号",lng:118.7463,lat:26.5782,open:"每日 08:00-22:00",fac:["饮水","休息","卫生间","医药箱"],facC:["blue","green","red","red"],vr:"",img:"🏠",status:0}
+  {id:1,name:"宁德市职工服务中心暖心驿站",addr:"宁德市蕉城区蕉城南路 66 号",lng:"119.5321",lat:"26.6617",open:"全年无休 24 小时服务",fac:["饮水","休息","充电","医药箱","无线网络"],facC:["blue","green","blue","red","green"],vr:"https://720yun.com/t/ndzgh001",img:"☕",status:1,flow:38,cap:60},
+  {id:2,name:"东侨开发区万达爱心驿站",addr:"宁德市东侨开发区天湖东路 8 号万达广场 1 号门",lng:119.5276,lat:26.6592,open:"每日 09:00-21:30",fac:["饮水","微波炉","充电","休息","卫生间"],facC:["blue","green","blue","green","red"],vr:"",img:"☂",status:1,flow:52,cap:80},
+  {id:3,name:"蕉城区环卫工人驿站（八一五路）",addr:"宁德市蕉城区八一五西路 2 号",lng:119.5188,lat:26.6554,open:"每日 06:30-21:00",fac:["饮水","休息","医药箱","充电","报刊"],facC:["blue","green","red","blue","green"],vr:"",img:"🏗",status:1,flow:16,cap:30},
+  {id:4,name:"福鼎市桐山街道爱心驿站",addr:"宁德市福鼎市桐山街道中山中路 101 号",lng:120.2166,lat:27.3181,open:"周一至周六 08:00-20:00",fac:["饮水","休息","微波炉","充电","卫生间"],facC:["blue","green","blue","blue","red"],vr:"",img:"🌳",status:1,flow:24,cap:40},
+  {id:5,name:"霞浦县快递小哥服务站",addr:"宁德市霞浦县松城街道太康路 39 号",lng:120.0053,lat:26.8858,open:"每日 08:30-21:00",fac:["饮水","充电","无线网络","休息","微波炉"],facC:["blue","blue","green","green","blue"],vr:"",img:"📦",status:1,flow:45,cap:50},
+  {id:6,name:"古田县城区劳动者驿站",addr:"宁德市古田县解放路 213 号",lng:118.7463,lat:26.5782,open:"每日 08:00-22:00",fac:["饮水","休息","卫生间","医药箱"],facC:["blue","green","red","red"],vr:"",img:"🏠",status:0,flow:0,cap:35}
+];
+/* 便民类目字典（按手册：驿站管理》便民类目维护，支持搜索选择） */
+var FAC_CATS=[
+  {id:1,type:"饮水服务",on:1,items:[{n:"饮水机",on:1},{n:"热水供应",on:1},{n:"一次性水杯",on:1}]},
+  {id:2,type:"休息设施",on:1,items:[{n:"休息",on:1},{n:"空调",on:1},{n:"沙发座椅",on:1}]},
+  {id:3,type:"充电上网",on:1,items:[{n:"充电",on:1},{n:"充电插座",on:1},{n:"无线网络",on:1}]},
+  {id:4,type:"应急服务",on:1,items:[{n:"医药箱",on:1},{n:"工具箱",on:0}]},
+  {id:5,type:"生活服务",on:1,items:[{n:"卫生间",on:1},{n:"微波炉",on:1},{n:"报刊",on:1},{n:"宣传屏",on:0}]}
 ];
 /* 组织树：含涵盖单位 units 与会员 members */
 function org(id,pid,name,lv,code,phone,leader,units,members){return {id:id,pid:pid,name:name,lv:lv,code:code,phone:phone,leader:leader,units:units||[],members:members||[],kids:[],open:false};}
@@ -332,6 +395,9 @@ var state={
   sentCode:"1234",
   siteDetail:null,
   siteKw:"",siteFac:"",
+  siteView:"list",
+  yzTab:"list",
+  gisSel:null,
   orgOpen:{1:true,2:true,5:true},
   orgSel:1,
   orgTab:"info",
@@ -341,10 +407,35 @@ var state={
 };
 function esc(s){return String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
 function toast(msg){var t=document.createElement("div");t.className="toast";t.textContent=msg;document.body.appendChild(t);setTimeout(function(){t.remove()},1800);}
-function setRole(r){state.role=r;document.getElementById("roleEmp").className=r==="emp"?"on":"";document.getElementById("roleAdmin").className=r==="admin"?"on":"";render();}
+function setRole(r){state.role=r;var a=document.getElementById("roleEmp"),b=document.getElementById("roleAdmin");if(a)a.className=r==="emp"?"on":"";if(b)b.className=r==="admin"?"on":"";render();}
 function setTab(t){state.tab=t;render();}
 function setMenu(m){state.adminMenu=m;render();}
 function pendingCount(){return APPLY.filter(function(a){return a.status===0}).length;}
+/* ============ 本地数据持久化（原型拆分后：小程序端/管理端经 localStorage 联动） ============ */
+var LS_KEY='ndgh_proto_v1';
+function saveData(){
+  try{
+    /* 管理端保存时不覆盖小程序端已存「我的申请」 */
+    var prevMy=null;
+    try{var old=JSON.parse(localStorage.getItem(LS_KEY)||"{}");prevMy=old.myApply||null;}catch(e2){}
+    localStorage.setItem(LS_KEY,JSON.stringify({sites:SITES,cats:FAC_CATS,orgs:ORGS,apply:APPLY,myApply:state.myApply||prevMy}));
+  }catch(e){}
+}
+function loadData(){
+  try{
+    var raw=localStorage.getItem(LS_KEY);
+    if(!raw)return false;
+    var d=JSON.parse(raw);
+    if(d.sites&&d.sites.length)SITES=d.sites;
+    if(d.cats&&d.cats.length)FAC_CATS=d.cats;
+    if(d.orgs&&d.orgs.length)ORGS=d.orgs;
+    if(d.apply)APPLY=d.apply;
+    if(d.myApply)state.myApply=d.myApply;
+    /* 小程序端「我的申请」与管理端审核结果同步（按申请编号匹配） */
+    if(state.myApply){APPLY.forEach(function(a){if(a.no===state.myApply.no){state.myApply.status=a.status;state.myApply.reason=a.reason;}});}
+    return true;
+  }catch(e){return false;}
+}
 function statusTag(s){if(s===0)return '<span class="tag wait">待审核</span>';if(s===1)return '<span class="tag ok">已通过</span>';return '<span class="tag no">已驳回</span>';}
 function memTag(m){var c={"正常":"ok","保留":"blue","转出":"gray","开除":"no","退会":"no"}[m]||"gray";return '<span class="tag '+c+'">'+m+'</span>';}
 function orgCount(){var n=0;(function w(list){list.forEach(function(x){n++;if(x.kids&&x.kids.length)w(x.kids);});})(ORGS);return n;}
@@ -352,17 +443,17 @@ function findOrg(id,list){if(!list)list=ORGS;for(var i=0;i<list.length;i++){if(l
 
 /* ================= 登录页 ================= */
 function renderEmpLogin(){
-  return '<div class="phone-frame"><div class="ph-head"><h3>宁德市总工会</h3><p>竭诚服务职工群众 · 指尖入会一站通</p></div>'+
-    '<div class="phone-body" style="display:flex;flex-direction:column;justify-content:center">'+
+  var body='<div style="display:flex;flex-direction:column;justify-content:center;min-height:78%">'+
     '<div style="text-align:center;margin-bottom:20px"><div style="font-size:44px">🏛️</div>'+
     '<div style="font-size:17px;font-weight:800;color:#7A101C;margin-top:6px">会员服务平台</div>'+
-    '<div style="font-size:11.5px;color:#999;margin-top:4px">职工端 · 手机号登录</div></div>'+
-    '<div class="card"><div class="field"><label>手机号</label><input id="empPhone" placeholder="请输入手机号" maxlength="11"></div>'+
-    '<div class="field"><label>验证码</label><div style="display:flex;gap:8px"><input id="empCode" placeholder="验证码" style="flex:1"><button class="btn sm gray" id="empSend" style="white-space:nowrap">获取验证码</button></div></div>'+
-    '<button class="btn block" id="empLogin" style="margin-top:4px">登 录</button>'+
-    '<div style="text-align:center;margin-top:12px"><button class="btn sm ghost" id="empDemo">演示账号一键登录</button></div></div>'+
-    '<div style="font-size:11px;color:#aaa;text-align:center;margin-top:10px;line-height:1.7">未注册用户登录后自动完成会员注册<br>演示：任意手机号 + 验证码 1234</div></div>'+
-    '<div class="phone-tabbar"></div></div>';
+    '<div style="font-size:11.5px;color:#999;margin-top:4px">微信小程序端 · 授权登录</div></div>'+
+    '<div class="card"><button class="wx-btn" id="empWxLogin">💚 微信一键授权登录</button>'+
+    '<div style="text-align:center;margin-top:12px;font-size:11px;color:#999">授权后自动获取微信头像与昵称</div>'+
+    '<div style="margin-top:14px;border-top:1px dashed #eee;padding-top:12px">'+
+    '<div class="field"><label>手机号绑定（选填）</label><input id="empPhone" placeholder="请输入手机号" maxlength="11"></div>'+
+    '<button class="btn block" id="empLogin" style="margin-top:4px">手机号登录</button></div></div>'+
+    '<div style="font-size:11px;color:#aaa;text-align:center;margin-top:10px;line-height:1.7">未注册用户登录后自动完成会员注册<br>演示：点击微信授权即可一键登录</div></div>';
+  return buildPhoneShell(body);
 }
 function renderAdminLogin(){
   return '<div class="pc-frame" style="min-height:700px;justify-content:center;align-items:center"><div style="width:100%;max-width:420px;padding:20px">'+
@@ -377,7 +468,21 @@ function renderAdminLogin(){
     '<div style="font-size:11px;color:#aaa;text-align:center;margin-top:10px">演示：任意手机号 + 密码 888888 + 验证码 '+state.captcha+'</div></div></div>';
 }
 
-/* ================= 手机端 ================= */
+/* ================= 手机端（微信小程序） ================= */
+function buildPhoneShell(body){
+  return '<div class="phone-frame"><div class="ph-head">'+
+    '<div class="wx-status"><span>9:41</span><span>●●● 5G ▮</span></div>'+
+    '<div class="wx-navrow"><h3 style="margin:0">宁德市总工会</h3>'+
+    '<span class="wx-capsule"><span class="c-dot"></span><span class="c-bar"></span></span></div>'+
+    '<p>竭诚服务职工群众 · 指尖入会一站通</p></div>'+
+    '<div class="phone-body">'+body+'</div><div class="phone-tabbar">'+buildTabbar()+'</div></div>';
+}
+function buildTabbar(){
+  var tabs=[["home","🏠","首页"],["apply","📝","入会申请"],["sites","📍","爱心驿站"],["org","🏛","组织架构"]];
+  var tb="";
+  tabs.forEach(function(t){var on=state.tab===t[0]?"on":"";tb+='<div class="tab '+on+'" data-tab="'+t[0]+'"><span class="ico">'+t[1]+'</span>'+t[2]+'</div>';});
+  return tb;
+}
 function renderPhone(){
   if(!state.empUser)return renderEmpLogin();
   var body="";
@@ -385,11 +490,7 @@ function renderPhone(){
   else if(state.tab==="apply")body=renderEmpApply();
   else if(state.tab==="sites")body=state.siteDetail?renderEmpSiteDetail():renderEmpSites();
   else body=renderEmpOrg();
-  var tabs=[["home","🏠","首页"],["apply","📝","入会申请"],["sites","📍","爱心站点"],["org","🏛","组织架构"]];
-  var tb="";
-  tabs.forEach(function(t){var on=state.tab===t[0]?"on":"";tb+='<div class="tab '+on+'" data-tab="'+t[0]+'"><span class="ico">'+t[1]+'</span>'+t[2]+'</div>';});
-  return '<div class="phone-frame"><div class="ph-head"><h3>宁德市总工会</h3><p>竭诚服务职工群众 · 指尖入会一站通</p></div>'+
-    '<div class="phone-body">'+body+'</div><div class="phone-tabbar">'+tb+'</div></div>';
+  return buildPhoneShell(body);
 }
 function renderEmpHome(){
   var my="";
@@ -398,12 +499,14 @@ function renderEmpHome(){
     my='<div class="card" data-act="apply" style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;cursor:pointer">'+
       '<div><div style="font-size:13.5px;font-weight:700">我的入会申请</div><div style="font-size:11.5px;color:#999;margin-top:3px">编号：'+esc(state.myApply.no)+'</div></div><div>'+c+'</div></div>';
   }
-  return '<div class="banner"><h4>欢迎使用宁德市总工会服务平台</h4><p>指尖入会 · 查找身边的爱心站点 · 查看工会组织</p></div>'+my+
+  return '<div class="banner"><h4>欢迎使用宁德市总工会服务平台</h4><p>指尖入会 · 查找身边的爱心驿站 · 查看工会组织</p></div>'+my+
   '<div class="entry-grid">'+
     '<div class="entry" data-entry="apply"><span class="e-ico">📝</span><span class="e-txt">入会申请</span></div>'+
-    '<div class="entry" data-entry="sites"><span class="e-ico">📍</span><span class="e-txt">爱心站点</span></div>'+
+    '<div class="entry" data-entry="sites"><span class="e-ico">📍</span><span class="e-txt">爱心驿站</span></div>'+
     '<div class="entry" data-entry="org"><span class="e-ico">🏛</span><span class="e-txt">组织架构</span></div>'+
   '</div>'+
+  '<div class="card"><div style="font-size:13px;font-weight:700;margin-bottom:8px">📰 工会动态</div>'+
+    '<div style="font-size:12px;color:#666;line-height:1.8">· 市总工会开展新就业形态劳动者集中入会行动<br>· 全市户外劳动者服务驿站提质扩容推进会召开<br>· 关于开展 2026 年度困难职工帮扶申报的通知</div></div>'+
   '<div class="card"><div style="font-size:13px;font-weight:700;margin-bottom:8px">📢 服务公告</div>'+
     '<div style="font-size:12px;color:#666;line-height:1.8">· 新就业形态劳动者可在线一键入会<br>· 全市爱心驿站地图持续更新中<br>· 入会申请 5 个工作日内完成审核</div></div>';
 }
@@ -443,28 +546,68 @@ function renderEmpSites(){
   var c="";
   chips.forEach(function(x){c+='<div class="chip '+(state.siteFac===x[1]?"on":"")+'" data-fac="'+x[1]+'">'+x[0]+'</div>';});
   var list=SITES.filter(function(s){return s.status===1}).filter(function(s){if(state.siteFac&&s.fac.indexOf(state.siteFac)<0)return false;return true;});
+  var viewTab='<div style="display:flex;gap:8px;margin-bottom:10px">'+
+    '<div class="chip '+(state.siteView==="list"?"on":"")+'" data-sview="list">☰ 列表</div>'+
+    '<div class="chip '+(state.siteView==="map"?"on":"")+'" data-sview="map">🗺 地图</div></div>';
+  if(state.siteView==="map"){
+    return '<div style="font-size:15px;font-weight:700;margin-bottom:10px">爱心驿站</div>'+viewTab+renderGisMap("emp");
+  }
   var cards=list.map(function(s){
     var facs=s.fac.slice(0,3).map(function(f,i){return '<span class="fac '+(s.facC[i]||"blue")+'">'+f+'</span>';}).join("");
     return '<div class="site-card" data-site="'+s.id+'"><div class="site-thumb">'+s.img+'</div><div class="info">'+
-      '<div class="nm">'+esc(s.name)+'</div><div class="addr">'+esc(s.addr)+'</div>'+facs+'</div></div>';
+      '<div class="nm">'+esc(s.name)+'<span class="map-flow">今日 '+s.flow+' 人</span></div><div class="addr">'+esc(s.addr)+'</div>'+facs+'</div></div>';
   }).join("");
   if(!list.length)cards="<div style='text-align:center;color:#aaa;padding:30px 0'>暂无匹配站点</div>";
-  return '<div style="font-size:15px;font-weight:700;margin-bottom:10px">户外劳动者爱心站点</div><div class="chips">'+c+'</div>'+cards;
+  return '<div style="font-size:15px;font-weight:700;margin-bottom:10px">爱心驿站</div>'+viewTab+'<div class="chips">'+c+'</div>'+cards;
+}
+/* GIS 驿站地图（模拟）：按经纬度归一化打点 */
+function renderGisMap(mode){
+  var on=SITES.filter(function(s){return s.status===1});
+  function dotPos(s,i){
+    var x=((s.lng-118.7)/(120.3-118.7))*88+5;
+    var y=100-((s.lat-26.5)/(27.4-26.5))*84-6;
+    /* 同城密集站点微错位，避免打点重叠 */
+    x+=((i%3)-1)*6;y+=(i%2?2:-2);
+    return [x,y];
+  }
+  var dots="";
+  on.forEach(function(s,i){
+    var p=dotPos(s,i);
+    var sel=state.gisSel===s.id;
+    dots+='<div class="gis-dot'+(sel?" sel":"")+'" data-gis="'+s.id+'" style="left:'+p[0]+'%;top:'+p[1]+'%"><i></i><span class="num">'+(i+1)+'</span></div>';
+  });
+  var pop="";
+  if(state.gisSel){
+    var ps=null,pi=0;on.forEach(function(s,idx){if(s.id===state.gisSel){ps=s;pi=idx;}});
+    if(ps){
+      var pp=dotPos(ps,pi);
+      pop='<div class="gis-pop show" style="left:min(calc('+Math.min(pp[0],58)+'% + 20px), calc(100% - 205px));top:min('+(pp[1]+6)+'%, calc(100% - 135px))">'+
+        '<div class="t">'+esc(ps.name)+'</div><div class="a">'+esc(ps.addr)+'</div>'+
+        '<div class="a">🕐 '+esc(ps.open)+'</div>'+
+        '<div class="f"><span>今日客流 '+ps.flow+'</span><span>当前客容 '+ps.cap+'</span></div>'+
+        '<div class="d" data-godetail="'+ps.id+'">查看驿站详情 ›</div></div>';
+    }
+  }
+  return '<div class="gis-map"><div class="gis-grid"></div><div class="gis-road"></div><div class="gis-road v"></div>'+dots+pop+
+    '<div class="gis-legend"><div class="lg"><span class="ico" style="background:#E12E3E"></span> 启用中驿站（点击查看）</div>'+
+    '<div class="lg"><span class="ico" style="background:#9e9e9e"></span> 已停用（不展示）</div></div></div>';
 }
 function renderEmpSiteDetail(){
   var s=null;SITES.forEach(function(x){if(x.id===state.siteDetail)s=x;});
   if(!s)return "";
   var facs=s.fac.map(function(f,i){return '<span class="fac '+(s.facC[i]||"blue")+'">'+f+'</span>';}).join("");
-  var vr=s.vr?'<div class="kv"><div class="k">VR 全景</div><div class="v"><button class="btn sm gray" data-act="vr">进入全景查看 ›</button></div></div>':"";
-  return '<div class="back-btn" data-act="sites">‹ 返回站点列表</div>'+
+  return '<div class="back-btn" data-act="sites">‹ 返回驿站列表</div>'+
     '<div class="detail-hero"><div class="nm">'+esc(s.name)+'</div></div>'+
+    '<div class="card" style="display:flex;gap:10px;margin-bottom:12px">'+
+    '<div style="flex:1;text-align:center;background:#FDF1F1;border-radius:10px;padding:10px"><div style="font-size:20px;font-weight:800;color:#C62828">'+s.flow+'</div><div style="font-size:10.5px;color:#999">今日客流数</div></div>'+
+    '<div style="flex:1;text-align:center;background:#E8F0FE;border-radius:10px;padding:10px"><div style="font-size:20px;font-weight:800;color:#1565C0">'+s.cap+'</div><div style="font-size:10.5px;color:#999">当前客容数</div></div></div>'+
+    '<button class="btn block" data-act="nav">🧭 导航前往</button>'+
+    '<button class="btn ghost block" style="margin-top:8px;margin-bottom:12px" data-act="vr">VR 全景浏览</button>'+
     '<div class="card"><div class="kv"><div class="k">详细地址</div><div class="v">'+esc(s.addr)+'</div></div>'+
     '<div class="kv"><div class="k">经纬度</div><div class="v">'+s.lng+', '+s.lat+'</div></div>'+
     '<div class="kv"><div class="k">开放时间</div><div class="v">'+esc(s.open)+'</div></div>'+
-    '<div class="kv"><div class="k">便民设施</div><div class="v">'+facs+'</div></div>'+vr+
-    '<div class="kv" style="border-bottom:none"><div class="k">站点图片</div><div class="v"><span style="font-size:30px">'+s.img+'</span>（演示占位）</div></div></div>'+
-    '<button class="btn block" data-act="nav">🧭 导航前往</button>'+
-    '<button class="btn ghost block" style="margin-top:8px" data-act="vr">VR 全景浏览</button>';
+    '<div class="kv"><div class="k">便民设施</div><div class="v">'+facs+'</div></div>'+
+    '<div class="kv" style="border-bottom:none"><div class="k">驿站图片</div><div class="v"><span style="font-size:30px">'+s.img+'</span>（演示占位）</div></div></div>';
 }
 function renderEmpOrg(){
   function tree(node,depth){
@@ -491,9 +634,9 @@ function renderEmpOrg(){
 /* ================= 管理端 ================= */
 function renderAdmin(){
   if(!state.adminUser)return renderAdminLogin();
-  var menus=[["dashboard","📊","工作台"],["audit","📝","入会审核"],["org","🏛","组织管理"],["sites","📍","站点管理"]];
+  var menus=[["dashboard","📊","工作台"],["audit","📝","入会审核"],["org","🏛","组织管理"],["sites","📍","驿站管理"]];
   var m="";menus.forEach(function(x){m+='<div class="menu-item '+(state.adminMenu===x[0]?"on":"")+'" data-menu="'+x[0]+'">'+x[1]+' '+x[2]+'</div>';});
-  var title={dashboard:"工作台",audit:"入会申请审核",org:"工会组织管理",sites:"户外站点档案管理"}[state.adminMenu];
+  var title={dashboard:"工作台",audit:"入会申请审核",org:"工会组织管理",sites:"驿站管理"}[state.adminMenu];
   var body=state.adminMenu==="dashboard"?renderAdminDash():state.adminMenu==="audit"?renderAdminAudit():state.adminMenu==="sites"?renderAdminSites():renderAdminOrg();
   return '<div class="pc-frame"><div class="pc-side"><div class="side-title">管理后台</div>'+m+'</div>'+
     '<div class="pc-main"><div class="pc-top"><h2>'+title+'</h2><span class="admin-tag">管理员模式</span></div>'+
@@ -504,14 +647,15 @@ function renderAdminDash(){
   return '<div class="stat-cards">'+
     '<div class="stat-card"><div class="v">'+pc+'</div><div class="l">待审核申请</div></div>'+
     '<div class="stat-card"><div class="v">'+APPLY.length+'</div><div class="l">入会申请总数</div></div>'+
-    '<div class="stat-card"><div class="v">'+SITES.filter(function(s){return s.status===1}).length+'</div><div class="l">在用站点</div></div>'+
+    '<div class="stat-card"><div class="v">'+SITES.filter(function(s){return s.status===1}).length+'</div><div class="l">在用驿站</div></div>'+
     '<div class="stat-card"><div class="v">'+orgCount()+'</div><div class="l">工会组织节点</div></div></div>'+
     '<div class="card"><div style="font-size:14px;font-weight:700;margin-bottom:10px">最新入会申请</div>'+
     '<div class="table-scroll"><table class="data-table"><thead><tr><th>申请编号</th><th>姓名</th><th>单位</th><th>提交时间</th><th>状态</th><th>操作</th></tr></thead><tbody>'+
     APPLY.slice(0,5).map(function(a){return '<tr><td>'+a.no+'</td><td>'+esc(a.name)+'</td><td>'+esc(a.unit)+'</td><td>'+a.time+'</td><td>'+statusTag(a.status)+'</td><td><button class="btn sm gray" data-view="'+a.no+'">详情</button></td></tr>';}).join("")+
     '</tbody></table></div></div>'+
     '<div class="card"><div style="font-size:14px;font-weight:700;margin-bottom:8px">快捷操作</div>'+
-    '<button class="btn sm" data-menu-jump="audit">去审核入会申请 →</button> <button class="btn sm ghost" data-menu-jump="org">组织管理 →</button> <button class="btn sm ghost" data-menu-jump="sites">站点档案 →</button></div>';
+    '<button class="btn sm" data-menu-jump="audit">去审核入会申请 →</button> <button class="btn sm ghost" data-menu-jump="org">组织管理 →</button> <button class="btn sm ghost" data-menu-jump="sites">驿站管理 →</button> '+
+    '<button class="btn sm gray" data-resetdata>重置演示数据</button></div>';
 }
 function renderAdminAudit(){
   var f=state.auditFilter;
@@ -525,15 +669,43 @@ function renderAdminAudit(){
       return '<tr><td>'+a.no+'</td><td>'+esc(a.name)+'</td><td>'+a.idc+'</td><td>'+esc(a.unit)+'</td><td>'+a.time+'</td><td>'+statusTag(a.status)+'</td><td>'+op+'</td></tr>';
     }).join("")+'</tbody></table></div>';
 }
+/* ===== 驿站管理（按管理员手册第三章：驿站列表/便民类目/驿站地图） ===== */
 function renderAdminSites(){
+  var tabs=[["list","驿站列表"],["cats","便民类目"],["map","驿站地图"]];
+  var t="";tabs.forEach(function(x){t+='<div class="ot '+(state.yzTab===x[0]?"on":"")+'" data-yztab="'+x[0]+'">'+x[1]+'</div>';});
+  var content="";
+  if(state.yzTab==="list")content=yzListTab();
+  else if(state.yzTab==="cats")content=yzCatsTab();
+  else content=yzMapTab();
+  return '<div style="font-size:12px;color:#888;margin-bottom:10px">按管理员手册「驿站管理」建设：驿站列表（启用/停用）· 便民类目（设施字典）· 驿站地图（GIS 打点/客流容容）</div>'+
+    '<div class="yz-tabs">'+t+'</div>'+content;
+}
+function yzListTab(){
   return '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:8px">'+
-    '<div style="font-size:13px;color:#777">共 '+SITES.length+' 个站点档案（含停用）</div>'+
-    '<button class="btn sm" data-addsite>＋ 新增站点</button></div>'+
-    '<div class="table-scroll"><table class="data-table"><thead><tr><th>站点名称</th><th>地址</th><th>开放时间</th><th>状态</th><th>操作</th></tr></thead><tbody>'+
+    '<div style="font-size:13px;color:#777">共 '+SITES.length+' 个驿站（含停用，停用后地图与小程序端均不展示）</div>'+
+    '<button class="btn sm" data-addsite>＋ 新增驿站</button></div>'+
+    '<div class="table-scroll"><table class="data-table"><thead><tr><th>驿站名称</th><th>地址</th><th>开放时间</th><th>今日客流/客容</th><th>状态</th><th>操作</th></tr></thead><tbody>'+
     SITES.map(function(s){
       var st=s.status===1?'<span class="tag ok">启用</span>':'<span class="tag gray">停用</span>';
-      return '<tr><td style="font-weight:600">'+esc(s.name)+'</td><td>'+esc(s.addr)+'</td><td>'+esc(s.open)+'</td><td>'+st+'</td><td><button class="btn sm gray" data-editsite="'+s.id+'">编辑</button> <button class="btn sm gray" data-togglesite="'+s.id+'">'+(s.status===1?"停用":"启用")+'</button></td></tr>';
+      return '<tr><td style="font-weight:600">'+esc(s.name)+'</td><td>'+esc(s.addr)+'</td><td>'+esc(s.open)+'</td><td>'+s.flow+' / '+s.cap+'</td><td>'+st+'</td><td><button class="btn sm gray" data-editsite="'+s.id+'">编辑</button> <button class="btn sm gray" data-togglesite="'+s.id+'">'+(s.status===1?"停用":"启用")+'</button></td></tr>';
     }).join("")+'</tbody></table></div>';
+}
+function yzCatsTab(){
+  var rows=FAC_CATS.map(function(cat){
+    var items=cat.items.map(function(it){
+      return '<span class="fac-opt '+(it.on?"on":"off")+'" data-facitem="'+cat.id+'_'+it.n+'">'+it.n+'</span>';
+    }).join("");
+    return '<div class="cat-group"><div class="cat-row" data-cattoggle="'+cat.id+'">'+
+      '<span class="cn">'+esc(cat.type)+(cat.on?'':'（已停用）')+'</span>'+
+      '<span class="cc">'+cat.items.filter(function(i){return i.on}).length+' / '+cat.items.length+' 项启用</span>'+
+      '<button class="btn sm gray">'+(cat.on?"停用类目":"启用类目")+'</button></div>'+items+'</div>';
+  }).join("");
+  return '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:8px">'+
+    '<div style="font-size:12.5px;color:#777">便民类目/设施字典：停用后驿站列表与编辑选择中不展示</div>'+
+    '<button class="btn sm" data-addcat>＋ 新增类目</button></div>'+rows;
+}
+function yzMapTab(){
+  return '<div style="font-size:12.5px;color:#777;margin-bottom:10px">GIS 地图加载所有启用中驿站，点击标注查看浮框信息（点击「查看驿站详情」打开编辑）</div>'+renderGisMap("admin");
 }
 
 /* ===== 组织管理（重点：按手册第三章） ===== */
@@ -610,6 +782,10 @@ function render(){
   var w=document.getElementById("wrap");
   if(state.role==="emp"){w.innerHTML=renderPhone();}
   else{w.innerHTML=renderAdmin();}
+  /* 提示条存活：toast 挂 body，render 重建后迁入新手机框（CSS absolute 定位框内） */
+  var toasts=document.querySelectorAll("body > .toast");
+  var nf=document.querySelector(".phone-frame");
+  if(nf){for(var ti=0;ti<toasts.length;ti++){nf.appendChild(toasts[ti]);}}
   bindEvents();
 }
 
@@ -670,6 +846,42 @@ function bindEvents(){
   for(i=0;i<views.length;i++){(function(el){el.onclick=function(){auditDetailModal(el.getAttribute("data-view"));};})(views[i]);}
   var appr=document.querySelectorAll("[data-approve]");
   for(i=0;i<appr.length;i++){(function(el){el.onclick=function(){auditDetailModal(el.getAttribute("data-approve"));};})(appr[i]);}
+  // 驿站交互：列表/地图切换、GIS 打点、浮框详情、驿站管理三 Tab
+  var svs=document.querySelectorAll("[data-sview]");
+  for(i=0;i<svs.length;i++){(function(el){el.onclick=function(){state.siteView=el.getAttribute("data-sview");render();};})(svs[i]);}
+  var gds=document.querySelectorAll("[data-gis]");
+  for(i=0;i<gds.length;i++){(function(el){el.onclick=function(e){e.stopPropagation();state.gisSel=parseInt(el.getAttribute("data-gis"),10);render();};})(gds[i]);}
+  var gods=document.querySelectorAll("[data-godetail]");
+  for(i=0;i<gods.length;i++){(function(el){el.onclick=function(e){e.stopPropagation();
+    var id=parseInt(el.getAttribute("data-godetail"),10);
+    if(state.role==="emp"){state.siteDetail=id;state.gisSel=null;setTab("sites");}
+    else{siteFormModal(id);}
+  };})(gods[i]);}
+  var yzts=document.querySelectorAll("[data-yztab]");
+  for(i=0;i<yzts.length;i++){(function(el){el.onclick=function(){state.yzTab=el.getAttribute("data-yztab");render();};})(yzts[i]);}
+  // 便民类目：新增弹窗 / 类目启停 / 设施启停
+  var acs=document.querySelectorAll("[data-addcat]");
+  for(i=0;i<acs.length;i++){(function(el){el.onclick=function(){catModal();};})(acs[i]);}
+  var cts=document.querySelectorAll("[data-cattoggle]");
+  for(i=0;i<cts.length;i++){(function(el){el.onclick=function(){
+    var cid=parseInt(el.getAttribute("data-cattoggle"),10);
+    FAC_CATS.forEach(function(c){if(c.id===cid)c.on=c.on?0:1;});
+    saveData();toast("类目状态已更新");render();
+  };})(cts[i]);}
+  var fis=document.querySelectorAll("[data-facitem]");
+  for(i=0;i<fis.length;i++){(function(el){el.onclick=function(){
+    var v=el.getAttribute("data-facitem").split("_");var cid=parseInt(v[0],10);var it=v[1];
+    FAC_CATS.forEach(function(c){if(c.id===cid)c.items.forEach(function(x){if(x.n===it)x.on=x.on?0:1;});});
+    saveData();toast("设施状态已更新");render();
+  };})(fis[i]);}
+  // 重置演示数据
+  var rds=document.querySelectorAll("[data-resetdata]");
+  for(i=0;i<rds.length;i++){(function(el){el.onclick=function(){
+    confirmBox("确认重置演示数据？将清除本地修改并恢复初始演示数据",function(){
+      try{localStorage.removeItem(LS_KEY);}catch(e){}
+      location.reload();
+    });
+  };})(rds[i]);}
   // 站点编辑/停用/新增
   var es=document.querySelectorAll("[data-editsite]");
   for(i=0;i<es.length;i++){(function(el){el.onclick=function(){siteFormModal(parseInt(el.getAttribute("data-editsite"),10));};})(es[i]);}
@@ -677,7 +889,7 @@ function bindEvents(){
   for(i=0;i<ts.length;i++){(function(el){el.onclick=function(){
     var id=parseInt(el.getAttribute("data-togglesite"),10);
     SITES.forEach(function(x){if(x.id===id)x.status=x.status===1?0:1;});
-    toast("站点状态已更新");render();
+    saveData();toast("驿站状态已更新");render();
   };})(ts[i]);}
   var add=document.querySelectorAll("[data-addsite]");
   for(i=0;i<add.length;i++){(function(el){el.onclick=function(){siteFormModal(null);};})(add[i]);}
@@ -697,7 +909,7 @@ function bindEvents(){
       var un=el.getAttribute("data-resign");
       o.units.forEach(function(u){if(u.name===un)u.u=0;});
       o.members.forEach(function(m){if(m.u===un)m.mem="转出";});
-      toast("退会成功，该单位下员工入会状态已转为转出");
+      saveData();toast("退会成功，该单位下员工入会状态已转为转出");
       render();
     });
   };})(resign[i]);}
@@ -709,21 +921,21 @@ function bindEvents(){
   for(i=0;i<memch.length;i++){(function(el){el.onclick=function(){memberChangeModal(el.getAttribute("data-memchange"));};})(memch[i]);}
   var memlog=document.querySelectorAll("[data-memlog]");
   for(i=0;i<memlog.length;i++){(function(el){el.onclick=function(){memberLogModal(el.getAttribute("data-memlog"));};})(memlog[i]);}
-  // 登录页
-  var empSend=document.getElementById("empSend");
-  if(empSend)empSend.onclick=function(){toast("验证码已发送：1234（演示）");};
+  // 登录页（小程序端：微信一键授权 / 手机号登录）
+  var empWx=document.getElementById("empWxLogin");
+  if(empWx)empWx.onclick=function(){
+    state.empUser={name:"微信用户",phone:"138****8888"};
+    toast("微信授权成功，已自动登录");
+    render();
+  };
   var empLogin=document.getElementById("empLogin");
   if(empLogin)empLogin.onclick=function(){
     var p=document.getElementById("empPhone").value.trim();
-    var c=document.getElementById("empCode").value.trim();
     if(!/^1\d{10}$/.test(p)){toast("请输入正确的手机号");return;}
-    if(c!=="1234"){toast("验证码错误（演示：1234）");return;}
-    state.empUser={name:"职工",phone:p};
+    state.empUser={name:"职工用户",phone:p.slice(0,3)+"****"+p.slice(-4)};
     toast("登录成功，欢迎使用");
     render();
   };
-  var empDemo=document.getElementById("empDemo");
-  if(empDemo)empDemo.onclick=function(){state.empUser={name:"林秀英",phone:"139****6618"};toast("演示登录成功");render();};
   var admCap=document.getElementById("admCap");
   if(admCap)admCap.onclick=function(){
     var chars="ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
@@ -782,6 +994,7 @@ function submitApply(){
   var no="GH"+timeStr.replace(/[-: ]/g,"").slice(2)+Math.floor(Math.random()*90+10);
   state.myApply={no:no,name:name,idc:idc,idcMask:idc.slice(0,4)+"********"+idc.slice(-4),mobile:mobile,unit:unit,file:"工作证明-"+name+".jpg",time:timeStr,status:0,reason:""};
   APPLY.unshift({no:no,name:name,idc:idc,idcMask:idc.slice(0,4)+"********"+idc.slice(-4),mobile:mobile,unit:unit,file:"工作证明-"+name+".jpg",time:timeStr,status:0,reason:""});
+  saveData();
   toast("申请已提交，请耐心等待审核");
   setTab("apply");
 }
@@ -810,14 +1023,14 @@ function auditDetailModal(no){
       a.status=1;mask.remove();toast("已通过："+a.name+" 的入会申请");
       var o=findOrg(state.orgSel);if(o){o.members.push({name:a.name,phone:a.mobile,mem:"正常",u:a.unit});}
       if(state.myApply&&state.myApply.no===a.no)state.myApply.status=1;
-      render();
+      saveData();render();
     };
     document.getElementById("auditReject").onclick=function(){
       var r=document.getElementById("auditReason").value.trim();
       if(!r){toast("请填写驳回原因");return;}
       a.status=2;a.reason=r;mask.remove();toast("已驳回："+a.name+" 的申请");
       if(state.myApply&&state.myApply.no===a.no){state.myApply.status=2;state.myApply.reason=r;}
-      render();
+      saveData();render();
     };
   }
 }
@@ -851,7 +1064,7 @@ function collectModal(){
     cur.kids.push(org(nid,cur.id,nm,lv,cd,ph,ld,[],[]));
     state.orgOpen[cur.id]=true;
     state.orgSel=nid;
-    mask.remove();toast("组织采集成功，已加入组织树");render();
+    saveData();mask.remove();toast("组织采集成功，已加入组织树");render();
   };
 }
 function orgEditModal(){
@@ -868,7 +1081,7 @@ function orgEditModal(){
     o.name=document.getElementById("eName").value.trim()||o.name;
     o.leader=document.getElementById("eLeader").value.trim();
     o.phone=document.getElementById("ePhone").value.trim();
-    mask.remove();toast("组织信息已保存");render();
+    saveData();mask.remove();toast("组织信息已保存");render();
   };
 }
 function unitModal(){
@@ -898,7 +1111,7 @@ function unitModal(){
       if(v){o.units=o.units||[];o.units.push({name:v,u:1});added++;}
     }
     if(!added){toast("请至少输入一个单位名称");return;}
-    mask.remove();toast("已添加 "+added+" 个涵盖单位");render();
+    saveData();mask.remove();toast("已添加 "+added+" 个涵盖单位");render();
   };
 }
 function memberModal(){
@@ -927,7 +1140,7 @@ function memberModal(){
     if(!nm){toast("请填写会员姓名");return;}
     var co=findOrg(state.orgSel)||ORGS[0];
     co.members=co.members||[];co.members.push({name:nm,phone:ph,mem:"正常",u:un||"未填单位"});
-    mask.remove();toast("会员已添加");render();
+    saveData();mask.remove();toast("会员已添加");render();
   };
 }
 function memberChangeModal(name){
@@ -955,7 +1168,7 @@ function memberChangeModal(name){
       else{
         var tip={"保留":"确认该会员进行保留会籍操作！","转出":"确认该会员进行转出会籍操作！","开除":"确认该会员进行开除会籍操作！","退会":"确认该会员进行退会操作！"}[act];
         confirmBox(tip,function(){
-          m.mem=act;mask.remove();toast("已执行："+act+"操作");render();
+          m.mem=act;saveData();mask.remove();toast("已执行："+act+"操作");render();
         });
       }
     };
@@ -987,58 +1200,229 @@ function memberLogModal(name){
   maskClosers(mask);
 }
 
-/* ================= 站点表单弹窗 ================= */
+/* ================= 便民类目编辑弹窗 ================= */
+function catModal(){
+  var mask=document.createElement("div");mask.className="modal-mask";
+  function rowsHtml(){
+    return FAC_CATS.map(function(c){
+      return '<div class="cat-group"><div class="cat-row" data-cm-cat="'+c.id+'"><span class="cn">'+esc(c.type)+(c.on?'':'（已停用）')+'</span>'+
+        '<span class="cc">'+c.items.filter(function(i){return i.on}).length+' / '+c.items.length+' 项启用</span>'+
+        '<button class="btn sm gray">'+(c.on?"停用类目":"启用类目")+'</button></div>'+
+        c.items.map(function(it){return '<span class="fac-opt '+(it.on?"on":"off")+'" data-cm-item="'+c.id+'_'+esc(it.n)+'">'+esc(it.n)+'</span>';}).join("")+'</div>';
+    }).join("");
+  }
+  function catSelHtml(){
+    return FAC_CATS.map(function(c){return '<option value="'+c.id+'">'+esc(c.type)+'</option>';}).join("");
+  }
+  mask.innerHTML='<div class="modal"><h4>便民类目维护</h4>'+
+    '<div style="font-size:11.5px;color:#8a3a45;background:#FDF3F5;border-radius:8px;padding:8px 12px;margin-bottom:12px">两级字典：类目 → 设施。停用后驿站编辑的设施选择中不再展示</div>'+
+    '<div class="form-row"><div class="field"><label>新增类目名称</label><input id="cmCatName" placeholder="如：法律援助"></div></div>'+
+    '<div class="form-row"><div class="field"><label>新增设施所属类目</label><select id="cmCatSel">'+catSelHtml()+'</select></div>'+
+    '<div class="field"><label>新增设施名称</label><input id="cmItemName" placeholder="如：充电宝租借"></div></div>'+
+    '<div style="margin-bottom:10px"><button class="btn sm" id="cmAddCat">＋ 添加类目</button> <button class="btn sm ghost" id="cmAddItem">＋ 添加设施</button></div>'+
+    '<div id="cmRows">'+rowsHtml()+'</div>'+
+    '<div class="m-actions"><button class="btn gray" data-close="1">关闭</button><button class="btn" id="cmDone">完成</button></div></div>';
+  document.body.appendChild(mask);mask.onclick=function(e){if(e.target===mask)mask.remove();};
+  maskClosers(mask);
+  function rebind(){
+    var rc=mask.querySelectorAll("[data-cm-cat]");
+    for(var i=0;i<rc.length;i++){(function(el){el.onclick=function(){
+      var cid=parseInt(el.getAttribute("data-cm-cat"),10);
+      FAC_CATS.forEach(function(c){if(c.id===cid)c.on=c.on?0:1;});
+      saveData();toast("类目状态已更新");mask.querySelector("#cmRows").innerHTML=rowsHtml();rebind();
+    };})(rc[i]);}
+    var ri=mask.querySelectorAll("[data-cm-item]");
+    for(var j=0;j<ri.length;j++){(function(el){el.onclick=function(){
+      var v=el.getAttribute("data-cm-item").split("_");var cid=parseInt(v[0],10);var it=v[1];
+      FAC_CATS.forEach(function(c){if(c.id===cid)c.items.forEach(function(x){if(x.n===it)x.on=x.on?0:1;});});
+      saveData();toast("设施状态已更新");mask.querySelector("#cmRows").innerHTML=rowsHtml();rebind();
+    };})(ri[j]);}
+  }
+  rebind();
+  document.getElementById("cmAddCat").onclick=function(){
+    var n=document.getElementById("cmCatName").value.trim();
+    if(!n){toast("请输入类目名称");return;}
+    var dup=false;FAC_CATS.forEach(function(c){if(c.type===n)dup=true;});
+    if(dup){toast("类目已存在");return;}
+    FAC_CATS.push({id:Date.now(),type:n,on:1,items:[]});
+    saveData();document.getElementById("cmCatName").value="";
+    mask.querySelector("#cmRows").innerHTML=rowsHtml();
+    document.getElementById("cmCatSel").innerHTML=catSelHtml();
+    rebind();toast("类目已添加");
+  };
+  document.getElementById("cmAddItem").onclick=function(){
+    var cid=parseInt(document.getElementById("cmCatSel").value,10);
+    var n=document.getElementById("cmItemName").value.trim();
+    var c=null;FAC_CATS.forEach(function(x){if(x.id===cid)c=x;});
+    if(!c||!n){toast("请选择类目并输入设施名称");return;}
+    var dup=false;c.items.forEach(function(i){if(i.n===n)dup=true;});
+    if(dup){toast("设施已存在");return;}
+    c.items.push({n:n,on:1});
+    saveData();document.getElementById("cmItemName").value="";
+    mask.querySelector("#cmRows").innerHTML=rowsHtml();rebind();toast("设施已添加");
+  };
+  document.getElementById("cmDone").onclick=function(){mask.remove();render();};
+}
+
+/* ================= 驿站表单弹窗（按管理员手册：三种地址选取 + 类目设施搜索选择 + 客流客容） ================= */
 function siteFormModal(id){
   var s=null;SITES.forEach(function(x){if(x.id===id)s=x;});
   var isNew=!s;
+  var facSel=s?s.fac.slice():["饮水"];
+  var addrMode=1;
+  var COORDS=[
+    {a:"宁德市蕉城区蕉城南路 66 号",lng:"119.5321",lat:"26.6617"},
+    {a:"宁德市东侨开发区天湖东路 8 号",lng:"119.5276",lat:"26.6592"},
+    {a:"宁德市蕉城区八一五西路 2 号",lng:"119.5188",lat:"26.6554"},
+    {a:"宁德市福鼎市桐山街道中山中路 101 号",lng:"120.2166",lat:"27.3181"},
+    {a:"宁德市霞浦县松城街道太康路 39 号",lng:"120.0053",lat:"26.8858"},
+    {a:"宁德市古田县解放路 213 号",lng:"118.7463",lat:"26.5782"}
+  ];
+  function parseAddr(a){
+    for(var i=0;i<COORDS.length;i++){if(COORDS[i].a===a)return COORDS[i];}
+    var kw=a.replace(/宁德市|蕉城区|东侨开发区|福鼎市|霞浦县|古田县/g,"").replace(/[0-9 号]/g,"").slice(0,4);
+    for(var j=0;j<COORDS.length;j++){if(kw.length>=2&&COORDS[j].a.indexOf(kw)>=0)return COORDS[j];}
+    return {a:a,lng:(119.49+(a.length%9)/100).toFixed(4),lat:(26.62+(a.length%7)/100).toFixed(4)};
+  }
+  function addrHtml(){
+    var cur=document.getElementById("sfAddr")?document.getElementById("sfAddr").value:(s?s.addr:"");
+    if(addrMode===1){
+      return '<div class="addr-pick-map" id="apMap"><div class="pin"></div>'+
+        '<div style="position:absolute;left:10px;bottom:8px;font-size:10.5px;color:#555;background:rgba(255,255,255,.88);border-radius:6px;padding:2px 8px">点击地图任意位置选点，自动获取经纬度并识别地址</div></div>'+
+        '<input id="sfAddr" placeholder="选点后自动回填地址" value="'+esc(cur)+'" readonly>';
+    }
+    if(addrMode===2){
+      return '<input id="sfAddr" placeholder="输入详细地址，点击下方按钮解析经纬度" value="'+esc(cur)+'">'+
+        '<button class="btn sm gray" id="apParse" style="margin-top:6px">解析地址 → 经纬度</button>'+
+        '<div style="font-size:10.5px;color:#aaa;margin-top:4px">提示：地址解析准确度较低，建议优先使用地图选点</div>';
+    }
+    return '<input id="sfAddr" placeholder="输入小区/写字楼/地标关键词" value="'+esc(cur)+'">'+
+      '<button class="btn sm gray" id="apSearch" style="margin-top:6px">检索地址</button>'+
+      '<div class="addr-sug" id="apSug" style="display:none"></div>';
+  }
+  function facHtml(kw){
+    kw=kw||"";
+    var html="";
+    FAC_CATS.filter(function(c){return c.on;}).forEach(function(c){
+      var items=c.items.filter(function(x){return x.on&&(!kw||x.n.indexOf(kw)>=0||c.type.indexOf(kw)>=0);});
+      if(!items.length)return;
+      html+='<div class="cat-group"><div class="gt">'+esc(c.type)+'</div>';
+      items.forEach(function(x){
+        html+='<span class="fac-opt '+(facSel.indexOf(x.n)>=0?"on":"")+'" data-sfac="'+esc(x.n)+'">'+esc(x.n)+'</span>';
+      });
+      html+='</div>';
+    });
+    return html||'<div style="font-size:12px;color:#aaa;padding:4px 0">无匹配设施，请调整关键词</div>';
+  }
   var mask=document.createElement("div");mask.className="modal-mask";mask.id="siteMask";
-  mask.innerHTML='<div class="modal"><h4>'+(isNew?"新增站点档案":"编辑站点档案")+'</h4>'+
-    '<div class="field"><label>站点名称 *</label><input id="sfName" placeholder="如：宁德市职工服务中心暖心驿站" value="'+esc(s?s.name:"")+'"></div>'+
-    '<div class="field"><label>详细地址 *</label><input id="sfAddr" placeholder="详细地址" value="'+esc(s?s.addr:"")+'"></div>'+
+  mask.innerHTML='<div class="modal"><h4>'+(isNew?"新增驿站":"编辑驿站档案")+'</h4>'+
+    '<div class="field"><label>驿站名称 *</label><input id="sfName" placeholder="如：宁德市职工服务中心暖心驿站" value="'+esc(s?s.name:"")+'"></div>'+
+    '<div class="field"><label>详细地址 *（三种选取方式）</label>'+
+    '<div class="addr-tabs"><div class="at on" data-amode="1">地图选点</div><div class="at" data-amode="2">输入地址解析</div><div class="at" data-amode="3">关键词检索</div></div>'+
+    '<div id="addrBox">'+addrHtml()+'</div></div>'+
     '<div class="form-row"><div class="field"><label>经度 *</label><input id="sfLng" value="'+esc(s?s.lng:"")+'" placeholder="119.5321"></div>'+
     '<div class="field"><label>纬度 *</label><input id="sfLat" value="'+esc(s?s.lat:"")+'" placeholder="26.6617"></div></div>'+
     '<div class="field"><label>开放时间 *</label><input id="sfOpen" value="'+esc(s?s.open:"")+'" placeholder="每日 08:00-22:00"></div>'+
-    '<div class="field"><label>便民设施（多选）</label><div id="sfFac">'+
-    ["饮水","休息","充电","微波炉","医药箱","卫生间","报刊","无线网络"].map(function(f){
-      var on=s&&s.fac.indexOf(f)>=0?" checked":"";
-      return '<label style="display:inline-block;margin:4px 10px 0 0;font-size:12.5px;font-weight:400"><input type="checkbox" class="facbox" value="'+f+'"'+on+'> '+f+'</label>';
-    }).join("")+'</div></div>'+
+    '<div class="form-row"><div class="field"><label>今日客流数</label><input id="sfFlow" type="number" min="0" value="'+(s?s.flow:0)+'"></div>'+
+    '<div class="field"><label>当前客容数</label><input id="sfCap" type="number" min="1" value="'+(s?s.cap:30)+'"></div></div>'+
+    '<div class="field"><label>便民设施 *（多选，取自便民类目字典，支持搜索）</label>'+
+    '<input id="sfFacKw" placeholder="输入关键词过滤设施" style="margin-bottom:8px">'+
+    '<div id="sfFac">'+facHtml("")+'</div></div>'+
     '<div class="field"><label>VR 地址（选填）</label><input id="sfVr" value="'+esc(s?s.vr:"")+'" placeholder="https://..."></div>'+
     '<div class="m-actions"><button class="btn gray" data-close="1">取消</button><button class="btn" id="sfSave">保存</button></div></div>';
   document.body.appendChild(mask);mask.onclick=function(e){if(e.target===mask)mask.remove();};
   maskClosers(mask);
+  function bindAddr(){
+    var ats=mask.querySelectorAll("[data-amode]");
+    for(var k=0;k<ats.length;k++){(function(el){el.onclick=function(){
+      addrMode=parseInt(el.getAttribute("data-amode"),10);
+      mask.querySelector("#addrBox").innerHTML=addrHtml();
+      var at2=mask.querySelectorAll("[data-amode]");
+      for(var m=0;m<at2.length;m++){at2[m].className="at"+(parseInt(at2[m].getAttribute("data-amode"),10)===addrMode?" on":"");}
+      bindAddr();
+    };})(ats[k]);}
+    var apm=mask.querySelector("#apMap");
+    if(apm)apm.onclick=function(){
+      var lng=(119.49+Math.random()*0.09).toFixed(4);
+      var lat=(26.62+Math.random()*0.06).toFixed(4);
+      mask.querySelector("#sfAddr").value="宁德市蕉城区万安东路 "+Math.floor(Math.random()*200+1)+" 号（地图选点）";
+      mask.querySelector("#sfLng").value=lng;
+      mask.querySelector("#sfLat").value=lat;
+      toast("已选取坐标点，地址已自动识别");
+    };
+    var app=mask.querySelector("#apParse");
+    if(app)app.onclick=function(){
+      var a=mask.querySelector("#sfAddr").value.trim();
+      if(!a){toast("请先输入地址");return;}
+      var c=parseAddr(a);
+      mask.querySelector("#sfLng").value=c.lng;
+      mask.querySelector("#sfLat").value=c.lat;
+      toast("地址解析成功（准确度较低，建议地图选点）");
+    };
+    var aps=mask.querySelector("#apSearch");
+    if(aps)aps.onclick=function(){
+      var kw=mask.querySelector("#sfAddr").value.trim();
+      var box=mask.querySelector("#apSug");
+      var list=COORDS.filter(function(c){return !kw||c.a.indexOf(kw)>=0;});
+      box.innerHTML=list.length?list.map(function(c){return '<div class="sg" data-sug="'+esc(c.a)+'">'+esc(c.a)+'</div>';}).join(""):'<div class="sg" style="color:#aaa;cursor:default">无匹配地址</div>';
+      box.style.display="block";
+      var sgs=box.querySelectorAll("[data-sug]");
+      for(var q=0;q<sgs.length;q++){(function(el){el.onclick=function(){
+        var a=el.getAttribute("data-sug");
+        var c=parseAddr(a);
+        mask.querySelector("#sfAddr").value=a;
+        mask.querySelector("#sfLng").value=c.lng;
+        mask.querySelector("#sfLat").value=c.lat;
+        box.style.display="none";
+        toast("已选择地址并带出经纬度");
+      };})(sgs[q]);}
+    };
+  }
+  bindAddr();
+  function bindFac(){
+    var fs=mask.querySelectorAll("[data-sfac]");
+    for(var k=0;k<fs.length;k++){(function(el){el.onclick=function(){
+      var n=el.getAttribute("data-sfac");
+      var idx=facSel.indexOf(n);
+      if(idx>=0)facSel.splice(idx,1);else facSel.push(n);
+      mask.querySelector("#sfFac").innerHTML=facHtml(mask.querySelector("#sfFacKw").value.trim());
+      bindFac();
+    };})(fs[k]);}
+  }
+  bindFac();
+  var fkw=mask.querySelector("#sfFacKw");
+  if(fkw)fkw.oninput=function(){
+    mask.querySelector("#sfFac").innerHTML=facHtml(fkw.value.trim());
+    bindFac();
+  };
   document.getElementById("sfSave").onclick=function(){
     var nm=document.getElementById("sfName").value.trim();
     var ad=document.getElementById("sfAddr").value.trim();
     var lng=document.getElementById("sfLng").value.trim();
     var lat=document.getElementById("sfLat").value.trim();
     var op=document.getElementById("sfOpen").value.trim();
-    if(!nm||!ad||!lng||!lat||!op){toast("请填写完整必填项");return;}
-    var facs=[];var boxes=mask.querySelectorAll(".facbox");
-    for(var b=0;b<boxes.length;b++){if(boxes[b].checked)facs.push(boxes[b].value);}
-    if(!facs.length)facs=["饮水"];
+    if(!nm||!ad||!lng||!lat||!op){toast("请填写完整必填项（地址/经纬度可经三种方式选取）");return;}
+    if(!facSel.length){toast("请至少选择一项便民设施");return;}
+    var flow=parseInt(document.getElementById("sfFlow").value,10);if(isNaN(flow)||flow<0)flow=0;
+    var cap=parseInt(document.getElementById("sfCap").value,10);if(isNaN(cap)||cap<=0)cap=30;
     var vr=document.getElementById("sfVr").value.trim();
     var colors=["blue","green","red"];
-    var data={name:nm,addr:ad,lng:lng,lat:lat,open:op,fac:facs,facC:facs.map(function(f,i){return colors[i%3];}),vr:vr,img:"☕"};
-    if(isNew){data.id=Date.now();data.status=1;SITES.push(data);toast("站点已新增");}
-    else{for(var k=0;k<SITES.length;k++){if(SITES[k].id===id){for(var key in data){SITES[k][key]=data[key];}}toast("站点已保存");}}
+    var data={name:nm,addr:ad,lng:lng,lat:lat,open:op,flow:flow,cap:cap,fac:facSel.slice(),facC:facSel.map(function(f,idx){return colors[idx%3];}),vr:vr,img:"☕"};
+    if(isNew){data.id=Date.now();data.status=1;SITES.push(data);toast("驿站已新增");}
+    else{for(var k=0;k<SITES.length;k++){if(SITES[k].id===id){for(var key in data){SITES[k][key]=data[key];}toast("驿站已保存");}}}
+    saveData();
     mask.remove();render();
   };
 }
 
 /* ================= 初始化 ================= */
-document.getElementById("roleEmp").onclick=function(){setRole("emp");};
-document.getElementById("roleAdmin").onclick=function(){setRole("admin");};
-function applyHash(){
-  var h=location.hash.replace("#","");
-  if(h==="admin"){state.role="admin";state.adminMenu="dashboard";}
-  else if(h==="admin-org"){state.role="admin";state.adminMenu="org";}
-  else if(h==="admin-audit"){state.role="admin";state.adminMenu="audit";}
-  else if(h==="admin-sites"){state.role="admin";state.adminMenu="sites";}
-  else if(h==="emp"){state.role="emp";}
-}
+  var rE=document.getElementById("roleEmp"),rA=document.getElementById("roleAdmin");
+  if(rE)rE.onclick=function(){setRole("emp");};
+  if(rA)rA.onclick=function(){setRole("admin");};
+function applyHash(){}
 window.addEventListener("hashchange",function(){applyHash();render();});
 applyHash();
+loadData();
 render();
 </script>
 </body>

@@ -2,11 +2,63 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="refresh" content="0;url=prototype.html">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>宁德市总工会会员服务平台 · 原型演示</title>
-<style>body{font-family:system-ui;background:#f5f0f1;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0;color:#8E001E}a{color:#C81E2E;font-weight:700}</style>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{font-family:-apple-system,"Microsoft YaHei","PingFang SC","Segoe UI",sans-serif;background:linear-gradient(160deg,#FBF6F6 0%,#FFFFFF 45%,#EBD3D6 100%);min-height:100vh;color:#2A2222}
+.hero{background:linear-gradient(135deg,#8F1521 0%,#C81E2E 50%,#E04A52 100%);color:#fff;text-align:center;padding:48px 24px 40px}
+.hero .badge{display:inline-block;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.35);font-size:12px;padding:4px 14px;border-radius:20px;margin-bottom:16px}
+.hero h1{font-size:25px;font-weight:800;letter-spacing:1px;margin-bottom:10px}
+.hero p{font-size:13.5px;opacity:.85;line-height:1.7}
+.wrap{max-width:860px;margin:0 auto;padding:28px 20px 60px}
+.card{background:#fff;border-radius:14px;box-shadow:0 2px 12px rgba(0,0,0,.08);padding:22px;margin-bottom:16px;display:flex;gap:16px;align-items:center;text-decoration:none;color:inherit;border-left:5px solid #E12E3E;transition:transform .15s}
+.card:active{transform:scale(.98)}
+.card .ico{font-size:34px;flex-shrink:0}
+.card .info{flex:1;min-width:0}
+.card h3{font-size:16.5px;color:#8E001E;font-weight:700;margin-bottom:5px}
+.card p{font-size:12.5px;color:#777;line-height:1.6}
+.card .go{color:#E12E3E;font-size:20px;flex-shrink:0}
+.note{background:#FDF3F5;border:1px dashed #E8A8B4;border-radius:12px;padding:14px 16px;font-size:12.5px;color:#8a3a45;line-height:1.8;margin-top:8px}
+.hint{text-align:center;font-size:12px;color:#aaa;margin-top:8px}
+</style>
 </head>
 <body>
-<p>正在进入原型演示，若无跳转请点击 <a href="prototype.html">进入原型</a></p>
+
+<div class="hero">
+  <span class="badge">原型演示 · V1.2</span>
+  <h1>宁德市总工会会员服务平台</h1>
+  <p>本期范围：① 工会会员入会申请 ② 户外劳动者服务驿站（驿站管理） ③ 工会组织管理<br>微信小程序端 + Web 管理端 · 参考原数字工会管理平台操作手册</p>
+</div>
+
+<div class="wrap">
+  <a class="card" href="mp.html" style="border-color:#07C160">
+    <div class="ico">📱</div>
+    <div class="info">
+      <h3>微信小程序端原型</h3>
+      <p>微信授权一键登录（或手机号登录）→ 首页 / 入会申请 / 爱心驿站 / 组织架构。<br>驿站支持列表+地图双视图（打点浮框：今日客流/当前客容），可进入详情与导航。<br>入会申请提交后在「我的入会申请」查看进度，管理端审核结果同步可见。</p>
+    </div>
+    <div class="go">›</div>
+  </a>
+
+  <a class="card" href="admin.html" style="border-color:#C81E2E">
+    <div class="ico">🖥</div>
+    <div class="info">
+      <h3>Web 管理端原型</h3>
+      <p>手机号 + 密码 888888 + 图形验证码登录（演示可一键登录）。<br>入会审核（通过/驳回）· 工会组织管理（组织树/现有组织采集/涵盖单位/会员会籍变更）· 驿站管理（驿站列表：三种地址选取+客流客容；便民类目：两级字典启停；驿站地图：GIS打点浮框）。<br>手机浏览器打开已自适应；支持 #admin-sites 直达驿站管理。</p>
+    </div>
+    <div class="go">›</div>
+  </a>
+
+  <div class="note">
+    <b>使用提示：</b><br>
+    ① 两个原型均已开启查看密码门，请向管理员获取密码，同一标签页验证一次即可；<br>
+    ② 两端通过浏览器本地存储联动：管理端审核/驿站调整后，小程序端刷新即可看到最新状态（同一浏览器）；<br>
+    ③ 原型为演示级 Mock 数据，交互完整可点击，未接真实后端；管理端工作台提供「重置演示数据」；<br>
+    ④ 本页为唯一导航入口，两端之间切换请返回本页。
+  </div>
+  <p class="hint">宁德电信 · AI+ 研发团队 ｜ 2026-09-17</p>
+</div>
+
 </body>
 </html>
