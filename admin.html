@@ -21,12 +21,12 @@ input,select,textarea{font-family:inherit;outline:none}
 .peer-link:hover{background:rgba(255,255,255,.28)}
 .desktop-wrap{display:flex;gap:20px;padding:20px;justify-content:center;align-items:flex-start}
 
-/* ========== 手机外框 ========== */
-.phone-frame{width:390px;min-height:720px;border-radius:28px;border:8px solid #2c2c2c;overflow:hidden;background:#f6f5f7;position:relative;box-shadow:0 8px 30px rgba(0,0,0,.25);display:flex;flex-direction:column}
+/* ========== 手机外框（固定高度：底部Tab栏贴底，中间内容区超出滚动） ========== */
+.phone-frame{width:390px;height:760px;border-radius:28px;border:8px solid #2c2c2c;overflow:hidden;background:#f6f5f7;position:relative;box-shadow:0 8px 30px rgba(0,0,0,.25);display:flex;flex-direction:column}
 .phone-frame .ph-head{background:linear-gradient(135deg,#8E001E,#C81E2E);color:#fff;padding:14px 16px 12px}
 .phone-frame .ph-head h3{font-size:16px;font-weight:700}
 .phone-frame .ph-head p{font-size:11px;opacity:.8;margin-top:2px}
-.phone-body{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:14px;min-height:540px;max-height:680px}
+.phone-body{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:14px}
 
 /* 手机底部 tab */
 .phone-tabbar{display:flex;border-top:1px solid #e4e1e6;background:#fff}
@@ -221,8 +221,8 @@ table.data-table tr:hover td{background:#fdf9f9}
 /* ===== 响应式 ===== */
 @media(max-width:860px){
   .desktop-wrap{flex-direction:column;align-items:center;padding:12px}
-  .phone-frame{width:100%;max-width:400px;border-radius:0;border:none;min-height:92vh}
-  .phone-body{max-height:64vh}
+  .phone-frame{width:100%;max-width:400px;border-radius:0;border:none;height:100vh;height:100dvh}
+  .phone-body{max-height:none}
   .pc-frame{width:100%;min-width:0;min-height:88vh;flex-direction:column}
   .pc-side{width:100%;display:flex;overflow-x:auto;padding:0;border-bottom:1px solid #eee}
   .pc-side .side-title{display:none}
@@ -502,6 +502,9 @@ function renderEmpHome(){
     '<div class="entry" data-entry="sites"><span class="e-ico">📍</span><span class="e-txt">爱心驿站</span></div>'+
     '<div class="entry" data-entry="org"><span class="e-ico">🏛</span><span class="e-txt">组织架构</span></div>'+
   '</div>'+
+  '<div class="card"><div style="font-size:13px;font-weight:700;margin-bottom:10px">🧭 入会流程</div>'+
+    '<div class="steps"><div class="step cur"><div class="dot">1</div>提交申请</div><div class="step"><div class="dot">2</div>工会审核</div><div class="step"><div class="dot">3</div>入会成功</div></div>'+
+    '<div style="font-size:11.5px;color:#999;margin-top:6px">线上提交 · 5 个工作日内完成审核 · 审核结果短信/微信通知</div></div>'+
   '<div class="card"><div style="font-size:13px;font-weight:700;margin-bottom:8px">📰 工会动态</div>'+
     '<div style="font-size:12px;color:#666;line-height:1.8">· 市总工会开展新就业形态劳动者集中入会行动<br>· 全市户外劳动者服务驿站提质扩容推进会召开<br>· 关于开展 2026 年度困难职工帮扶申报的通知</div></div>'+
   '<div class="card"><div style="font-size:13px;font-weight:700;margin-bottom:8px">📢 服务公告</div>'+
