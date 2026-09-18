@@ -1795,7 +1795,8 @@ renderEmpHome=function(){
   var adHtml=adsOn.length?'<div style="display:flex;gap:8px;overflow-x:auto;-webkit-overflow-scrolling:touch;margin-bottom:12px;padding-bottom:4px">'+
     adsOn.map(function(a){return '<div style="flex-shrink:0;width:300px;background:linear-gradient(135deg,#8E001E,#C81E2E);border-radius:12px;padding:14px 16px;color:#fff;display:flex;align-items:center;gap:10px"><span style="font-size:28px">'+a.img+'</span><div><div style="font-size:14px;font-weight:700">'+esc(a.title)+'</div><div style="font-size:11px;opacity:.8;margin-top:2px">工会专属活动</div></div></div>';}).join("")+
     '</div>':'';
-  var popupAd=null;ADS.forEach(function(a){if(a.on===1&&a.type==="弹窗"&&!popupAd)popupAd=a;});
+  var popupAd=null;
+  if(!state.adDismissed){ADS.forEach(function(a){if(a.on===1&&a.type==="弹窗"&&!popupAd)popupAd=a;});}
   var popup=popupAd?'<div id="homeAdPop" style="position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:150;display:flex;align-items:center;justify-content:center;padding:20px"><div style="background:#fff;border-radius:14px;width:100%;max-width:340px;padding:24px;text-align:center;position:relative"><div style="font-size:40px;margin-bottom:8px">'+popupAd.img+'</div><div style="font-size:16px;font-weight:800;color:#7A101C">'+esc(popupAd.title)+'</div><div style="font-size:12px;color:#999;margin-top:6px">工会会员专属福利，点击了解详情</div><button class="btn block" style="margin-top:14px" data-adview="'+esc(popupAd.link||'news')+'">立即查看</button><div data-closehomead style="position:absolute;top:8px;right:12px;font-size:20px;color:#ccc;cursor:pointer">✕</div></div></div>':'';
   var entryHtml='<div class="entry-grid" style="grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px">'+
     NAV_ITEMS.filter(function(n){return n.on}).map(function(n){return '<div class="entry" data-entry="'+n.tab+'"><span class="e-ico">'+n.ico+'</span><span class="e-txt" style="font-size:11px">'+esc(n.name)+'</span></div>';}).join("")+'</div>';
@@ -2027,16 +2028,17 @@ bindEvents=function(){
   var i;
   /* 首页弹窗广告关闭 */
   var closeAd=document.querySelector("[data-closehomead]");
-  if(closeAd)closeAd.onclick=function(){var p=document.getElementById("homeAdPop");if(p)p.remove();};
+  if(closeAd)closeAd.onclick=function(){var p=document.getElementById("homeAdPop");if(p)p.remove();state.adDismissed=true;};
   var adView=document.querySelector("[data-adview]");
   if(adView)adView.onclick=function(){
     var p=document.getElementById("homeAdPop");if(p)p.remove();
+    state.adDismissed=true;
     var target=adView.getAttribute("data-adview");
     if(target&&target.indexOf("http")===0){window.open(target,"_blank");}
     else{setTab(target||"news");}
   };
   var adMask=document.getElementById("homeAdPop");
-  if(adMask)adMask.onclick=function(e){if(e.target===adMask)adMask.remove();};
+  if(adMask)adMask.onclick=function(e){if(e.target===adMask){adMask.remove();state.adDismissed=true;}};
   /* 资讯类目筛选 */
   var ncs=document.querySelectorAll("[data-newscat]");
   for(i=0;i<ncs.length;i++){(function(el){el.onclick=function(){state.newsCatFilter=el.getAttribute("data-newscat");render();};})(ncs[i]);}
