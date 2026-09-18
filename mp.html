@@ -801,8 +801,13 @@ function bindEvents(){
   var i;
   var tabs=document.querySelectorAll(".tab[data-tab]");
   for(i=0;i<tabs.length;i++){(function(el){el.onclick=function(){setTab(el.getAttribute("data-tab"));};})(tabs[i]);}
-  var entries=document.querySelectorAll(".entry[data-entry]");
-  for(i=0;i<entries.length;i++){(function(el){el.onclick=function(){setTab(el.getAttribute("data-entry"));};})(entries[i]);}
+  var entries=document.querySelectorAll("[data-entry]");
+  for(i=0;i<entries.length;i++){(function(el){el.onclick=function(){
+    var t=el.getAttribute("data-entry");
+    /* 返回服务大厅时清除子页面详情状态 */
+    if(t==="service"){state.newsDetail=null;state.jobDetail=null;}
+    setTab(t);
+  };})(entries[i]);}
   var acts=document.querySelectorAll("[data-act]");
   for(i=0;i<acts.length;i++){(function(el){
     el.onclick=function(){
